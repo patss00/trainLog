@@ -19,6 +19,10 @@ def get_lines():
 def get_all_stations():
     return data["allStations"]
 
+@app.get("/cutes")
+def get_all_stations():
+    return data["cutes"]
+
 @app.get("/lines/{line_id}")
 def get_line(line_id: str):
     for line in data["lines"]:
