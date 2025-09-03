@@ -37,6 +37,26 @@
         "id": "IC3000",
         "route": "Den Helder - Nijmegen",
         "country": "NL",
+        "allStations": [
+            "Den Helder",
+            "Den Helder Zuid",
+            "Anna Paulowna",
+            "Schagen",
+            "Heerhugowaard",
+            "Alkmaar Noord",
+            "Alkmaar",
+            "Heiloo",
+            "Castricum",
+            "Zaandam",
+            "Amsterdam Sloterdijk",
+            "Amsterdam Centraal",
+            "Amsterdam Amstel",
+            "Utrecht Centraal",
+            "Driebergen-Zeist",
+            "Ede-Wageningen",
+            "Arnhem Centraal",
+            "Nijmegen"
+        ],
         "stations": [
         {
             "name": "Den Helder",
@@ -1378,6 +1398,21 @@
         "id": "S5800",
         "route": "Amsterdam Centraal - Amersfoort Vathorst",
         "country": "NL",
+        "allStations": [
+            "Amsterdam Centraal",
+            "Amsterdam Muiderpoort",
+            "Amsterdam Science Park",
+            "Diemen",
+            "Weesp",
+            "Naarden-Bussum",
+            "Bussum Zuid",
+            "Hilversum Media Park",
+            "Hilversum",
+            "Baarn",
+            "Amersfoort Centraal",
+            "Amersfoort Schothorst",
+            "Amersfoort Vathorst"
+        ],
         "stations": [
             {
             "name": "Amsterdam Centraal",
