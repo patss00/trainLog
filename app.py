@@ -15,6 +15,10 @@ def root():
 def get_lines():
     return data["lines"]
 
+@app.get("/allStations")
+def get_all_stations():
+    return data["allStations"]
+
 @app.get("/lines/{line_id}")
 def get_line(line_id: str):
     for line in data["lines"]:
