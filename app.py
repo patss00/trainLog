@@ -20,7 +20,7 @@ def get_all_stations():
     return data["allStations"]
 
 @app.get("/cutes")
-def get_all_stations():
+def get_all_cutes():
     return data["cutes"]
 
 @app.get("/lines/{line_id}")

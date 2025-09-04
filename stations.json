@@ -766,178 +766,183 @@
             ]
         }
         ],
-        "connections": [
-        {
-            "from": "Den Helder",
-            "to": "Den Helder Zuid",
-            "time": 4
-        },
-        {
-            "from": "Den Helder Zuid",
-            "to": "Anna Paulowna",
-            "time": 6
-        },
-        {
-            "from": "Anna Paulowna",
-            "to": "Schagen",
-            "time": 8
-        },
-        {
-            "from": "Schagen",
-            "to": "Heerhugowaard",
-            "time": 9
-        },
-        {
-            "from": "Heerhugowaard",
-            "to": "Alkmaar Noord",
-            "time": 6
-        },
-        {
-            "from": "Alkmaar Noord",
-            "to": "Alkmaar",
-            "time": 4
-        },
-        {
-            "from": "Alkmaar",
-            "to": "Heiloo",
-            "time": 8
-        },
-        {
-            "from": "Heiloo",
-            "to": "Castricum",
-            "time": 6
-        },
-        {
-            "from": "Castricum",
-            "to": "Zaandam",
-            "time": 13
-        },
-        {
-            "from": "Zaandam",
-            "to": "Amsterdam Sloterdijk",
-            "time": 7
-        },
-        {
-            "from": "Amsterdam Sloterdijk",
-            "to": "Amsterdam Centraal",
-            "time": 6
-        },
-        {
-            "from": "Amsterdam Centraal",
-            "to": "Amsterdam Amstel",
-            "time": 10
-        },
-        {
-            "from": "Amsterdam Amstel",
-            "to": "Utrecht Centraal",
-            "time": 20
-        },
-        {
-            "from": "Utrecht Centraal",
-            "to": "Driebergen-Zeist",
-            "time": 10
-        },
-        {
-            "from": "Driebergen-Zeist",
-            "to": "Ede-Wageningen",
-            "time": 17
-        },
-        {
-            "from": "Ede-Wageningen",
-            "to": "Arnhem Centraal",
-            "time": 10
-        },
-        {
-            "from": "Arnhem Centraal",
-            "to": "Nijmegen",
-            "time": 17
-        },
-        {
-            "from": "Nijmegen",
-            "to": "Arnhem Centraal",
-            "time": 17
-        },
-        {
-            "from": "Arnhem Centraal",
-            "to": "Ede-Wageningen",
-            "time": 10
-        },
-        {
-            "from": "Ede-Wageningen",
-            "to": "Driebergen-Zeist",
-            "time": 17
-        },
-        {
-            "from": "Driebergen-Zeist",
-            "to": "Utrecht Centraal",
-            "time": 10
-        },
-        {
-            "from": "Utrecht Centraal",
-            "to": "Amsterdam Amstel",
-            "time": 20
-        },
-        {
-            "from": "Amsterdam Amstel",
-            "to": "Amsterdam Centraal",
-            "time": 10
-        },
-        {
-            "from": "Amsterdam Centraal",
-            "to": "Amsterdam Sloterdijk",
-            "time": 6
-        },
-        {
-            "from": "Amsterdam Sloterdijk",
-            "to": "Zaandam",
-            "time": 7
-        },
-        {
-            "from": "Zaandam",
-            "to": "Castricum",
-            "time": 13
-        },
-        {
-            "from": "Castricum",
-            "to": "Heiloo",
-            "time": 6
-        },
-        {
-            "from": "Heiloo",
-            "to": "Alkmaar",
-            "time": 8
-        },
-        {
-            "from": "Alkmaar",
-            "to": "Alkmaar Noord",
-            "time": 4
-        },
-        {
-            "from": "Alkmaar Noord",
-            "to": "Heerhugowaard",
-            "time": 6
-        },
-        {
-            "from": "Heerhugowaard",
-            "to": "Schagen",
-            "time": 9
-        },
-        {
-            "from": "Schagen",
-            "to": "Anna Paulowna",
-            "time": 8
-        },
-        {
-            "from": "Anna Paulowna",
-            "to": "Den Helder Zuid",
-            "time": 6
-        },
-        {
-            "from": "Den Helder Zuid",
-            "to": "Den Helder",
-            "time": 4
-        }
-        ],
+        "connections": 
+            {
+                "go": [
+                    {
+                        "from": "Den Helder",
+                        "to": "Den Helder Zuid",
+                        "time": 4
+                    },
+                    {
+                        "from": "Den Helder Zuid",
+                        "to": "Anna Paulowna",
+                        "time": 6
+                    },
+                    {
+                        "from": "Anna Paulowna",
+                        "to": "Schagen",
+                        "time": 8
+                    },
+                    {
+                        "from": "Schagen",
+                        "to": "Heerhugowaard",
+                        "time": 9
+                    },
+                    {
+                        "from": "Heerhugowaard",
+                        "to": "Alkmaar Noord",
+                        "time": 6
+                    },
+                    {
+                        "from": "Alkmaar Noord",
+                        "to": "Alkmaar",
+                        "time": 4
+                    },
+                    {
+                        "from": "Alkmaar",
+                        "to": "Heiloo",
+                        "time": 8
+                    },
+                    {
+                        "from": "Heiloo",
+                        "to": "Castricum",
+                        "time": 6
+                    },
+                    {
+                        "from": "Castricum",
+                        "to": "Zaandam",
+                        "time": 13
+                    },
+                    {
+                        "from": "Zaandam",
+                        "to": "Amsterdam Sloterdijk",
+                        "time": 7
+                    },
+                    {
+                        "from": "Amsterdam Sloterdijk",
+                        "to": "Amsterdam Centraal",
+                        "time": 6
+                    },
+                    {
+                        "from": "Amsterdam Centraal",
+                        "to": "Amsterdam Amstel",
+                        "time": 10
+                    },
+                    {
+                        "from": "Amsterdam Amstel",
+                        "to": "Utrecht Centraal",
+                        "time": 20
+                    },
+                    {
+                        "from": "Utrecht Centraal",
+                        "to": "Driebergen-Zeist",
+                        "time": 10
+                    },
+                    {
+                        "from": "Driebergen-Zeist",
+                        "to": "Ede-Wageningen",
+                        "time": 17
+                    },
+                    {
+                        "from": "Ede-Wageningen",
+                        "to": "Arnhem Centraal",
+                        "time": 10
+                    },
+                    {
+                        "from": "Arnhem Centraal",
+                        "to": "Nijmegen",
+                        "time": 17
+                    }
+                ],
+                "back": [
+                    {
+                        "from": "Nijmegen",
+                        "to": "Arnhem Centraal",
+                        "time": 17
+                    },
+                    {
+                        "from": "Arnhem Centraal",
+                        "to": "Ede-Wageningen",
+                        "time": 10
+                    },
+                    {
+                        "from": "Ede-Wageningen",
+                        "to": "Driebergen-Zeist",
+                        "time": 17
+                    },
+                    {
+                        "from": "Driebergen-Zeist",
+                        "to": "Utrecht Centraal",
+                        "time": 10
+                    },
+                    {
+                        "from": "Utrecht Centraal",
+                        "to": "Amsterdam Amstel",
+                        "time": 20
+                    },
+                    {
+                        "from": "Amsterdam Amstel",
+                        "to": "Amsterdam Centraal",
+                        "time": 10
+                    },
+                    {
+                        "from": "Amsterdam Centraal",
+                        "to": "Amsterdam Sloterdijk",
+                        "time": 6
+                    },
+                    {
+                        "from": "Amsterdam Sloterdijk",
+                        "to": "Zaandam",
+                        "time": 7
+                    },
+                    {
+                        "from": "Zaandam",
+                        "to": "Castricum",
+                        "time": 13
+                    },
+                    {
+                        "from": "Castricum",
+                        "to": "Heiloo",
+                        "time": 6
+                    },
+                    {
+                        "from": "Heiloo",
+                        "to": "Alkmaar",
+                        "time": 8
+                    },
+                    {
+                        "from": "Alkmaar",
+                        "to": "Alkmaar Noord",
+                        "time": 4
+                    },
+                    {
+                        "from": "Alkmaar Noord",
+                        "to": "Heerhugowaard",
+                        "time": 6
+                    },
+                    {
+                        "from": "Heerhugowaard",
+                        "to": "Schagen",
+                        "time": 9
+                    },
+                    {
+                        "from": "Schagen",
+                        "to": "Anna Paulowna",
+                        "time": 8
+                    },
+                    {
+                        "from": "Anna Paulowna",
+                        "to": "Den Helder Zuid",
+                        "time": 6
+                    },
+                    {
+                        "from": "Den Helder Zuid",
+                        "to": "Den Helder",
+                        "time": 4
+                    }
+                ]
+            },
         "timetables":
         [
             {
@@ -1882,128 +1887,132 @@
             ]
         }
         ],
-        "connections": [
-        {
-            "from": "Amsterdam Centraal",
-            "to": "Amsterdam Muiderpoort",
-            "time": 5
+        "connections": {
+            "go": [
+                {
+                    "from": "Amsterdam Centraal",
+                    "to": "Amsterdam Muiderpoort",
+                    "time": 5
+                },
+                {
+                    "from": "Amsterdam Muiderpoort",
+                    "to": "Amsterdam Science Park",
+                    "time": 3
+                },
+                {
+                    "from": "Amsterdam Science Park",
+                    "to": "Diemen",
+                    "time": 3
+                },
+                {
+                    "from": "Diemen",
+                    "to": "Weesp",
+                    "time": 7
+                },
+                {
+                    "from": "Weesp",
+                    "to": "Naarden-Bussum",
+                    "time": 6
+                },
+                {
+                    "from": "Naarden-Bussum",
+                    "to": "Bussum Zuid",
+                    "time": 3
+                },
+                {
+                    "from": "Bussum Zuid",
+                    "to": "Hilversum Media Park",
+                    "time": 4
+                },
+                {
+                    "from": "Hilversum Media Park",
+                    "to": "Hilversum",
+                    "time": 3
+                },
+                {
+                    "from": "Hilversum",
+                    "to": "Baarn",
+                    "time": 6
+                },
+                {
+                    "from": "Baarn",
+                    "to": "Amersfoort Centraal",
+                    "time": 8
+                },
+                {
+                    "from": "Amsterdam Centraal",
+                    "to": "Amersfoort Schothorst",
+                    "time": 4
+                },
+                {
+                    "from": "Amersfoort Schothorst",
+                    "to": "Amersfoort Vathorst",
+                    "time": 3
+                }
+            ],
+            "back": [
+                {
+                    "from": "Amersfoort Vathorst",
+                    "to": "Amersfoort Schothorst",
+                    "time": 3
+                },
+                {
+                    "from": "Amersfoort Schothorst",
+                    "to": "Amsterdam Centraal",
+                    "time": 4
+                },
+                {
+                    "from": "Amersfoort Centraal",
+                    "to": "Baarn",
+                    "time": 8
+                },
+                {
+                    "from": "Baarn",
+                    "to": "Hilversum",
+                    "time": 6
+                },
+                {
+                    "from": "Hilversum",
+                    "to": "Hilversum Media Park",
+                    "time": 3
+                },
+                {
+                    "from": "Hilversum Media Park",
+                    "to": "Bussum Zuid",
+                    "time": 4
+                },
+                {
+                    "from": "Bussum Zuid",
+                    "to": "Naarden-Bussum",
+                    "time": 3
+                },
+                {
+                    "from": "Naarden-Bussum",
+                    "to": "Weesp",
+                    "time": 6
+                },
+                {
+                    "from": "Weesp",
+                    "to": "Diemen",
+                    "time": 7
+                },
+                {
+                    "from": "Diemen",
+                    "to": "Amsterdam Science Park",
+                    "time": 3
+                },
+                {
+                    "from": "Amsterdam Science Park",
+                    "to": "Amsterdam Muiderpoort",
+                    "time": 3
+                },
+                {
+                    "from": "Amsterdam Muiderpoort",
+                    "to": "Amsterdam Centraal",
+                    "time": 5
+                }
+            ]
         },
-        {
-            "from": "Amsterdam Muiderpoort",
-            "to": "Amsterdam Science Park",
-            "time": 3
-        },
-        {
-            "from": "Amsterdam Science Park",
-            "to": "Diemen",
-            "time": 3
-        },
-        {
-            "from": "Diemen",
-            "to": "Weesp",
-            "time": 7
-        },
-        {
-            "from": "Weesp",
-            "to": "Naarden-Bussum",
-            "time": 6
-        },
-        {
-            "from": "Naarden-Bussum",
-            "to": "Bussum Zuid",
-            "time": 3
-        },
-        {
-            "from": "Bussum Zuid",
-            "to": "Hilversum Media Park",
-            "time": 4
-        },
-        {
-            "from": "Hilversum Media Park",
-            "to": "Hilversum",
-            "time": 3
-        },
-        {
-            "from": "Hilversum",
-            "to": "Baarn",
-            "time": 6
-        },
-        {
-            "from": "Baarn",
-            "to": "Amersfoort Centraal",
-            "time": 8
-        },
-        {
-            "from": "Amsterdam Centraal",
-            "to": "Amersfoort Schothorst",
-            "time": 4
-        },
-        {
-            "from": "Amersfoort Schothorst",
-            "to": "Amersfoort Vathorst",
-            "time": 3
-        },
-        {
-            "from": "Amersfoort Vathorst",
-            "to": "Amersfoort Schothorst",
-            "time": 3
-        },
-        {
-            "from": "Amersfoort Schothorst",
-            "to": "Amsterdam Centraal",
-            "time": 4
-        },
-        {
-            "from": "Amersfoort Centraal",
-            "to": "Baarn",
-            "time": 8
-        },
-        {
-            "from": "Baarn",
-            "to": "Hilversum",
-            "time": 6
-        },
-        {
-            "from": "Hilversum",
-            "to": "Hilversum Media Park",
-            "time": 3
-        },
-        {
-            "from": "Hilversum Media Park",
-            "to": "Bussum Zuid",
-            "time": 4
-        },
-        {
-            "from": "Bussum Zuid",
-            "to": "Naarden-Bussum",
-            "time": 3
-        },
-        {
-            "from": "Naarden-Bussum",
-            "to": "Weesp",
-            "time": 6
-        },
-        {
-            "from": "Weesp",
-            "to": "Diemen",
-            "time": 7
-        },
-        {
-            "from": "Diemen",
-            "to": "Amsterdam Science Park",
-            "time": 3
-        },
-        {
-            "from": "Amsterdam Science Park",
-            "to": "Amsterdam Muiderpoort",
-            "time": 3
-        },
-        {
-            "from": "Amsterdam Muiderpoort",
-            "to": "Amsterdam Centraal",
-            "time": 5
-        }
-        ],
         "timetables": [
             {
                 "day": "monday",
