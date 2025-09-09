@@ -3,6 +3,7 @@ from fastapi import FastAPI
 import json
 
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -40,10 +41,16 @@ def get_station(station_name: str):
             if station["name"].lower() == station_name.lower():
                 return station
     return {"error": "Station not found"}
+# Mount a "static" folder to serve images
+static_dir = os.path.join(os.getcwd(), "static")
+os.makedirs(static_dir, exist_ok=True)  # make sure it exists
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 @app.get("/pic")
 def get_pic():
-    file_path = os.path.join(os.getcwd(), "Rubber_Duck.png")  # file in the same folder as app.py
+    # Put your image in the "static" folder
+    file_path = os.path.join(static_dir, "Rubber_Duck.png")
     if not os.path.exists(file_path):
         return {"error": f"File not found: {file_path}"}
+    # Return the image file directly
     return FileResponse(file_path, media_type="image/png")
