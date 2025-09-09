@@ -40,4 +40,7 @@ def get_station(station_name: str):
 
 @app.get("/pic")
 def get_pic():
-    return FileResponse("Rubber_Duck.png", media_type="image/png")
+    file_path = os.path.join(os.getcwd(), "amsterdam.jpg")  # file in the same folder as app.py
+    if not os.path.exists(file_path):
+        return {"error": f"File not found: {file_path}"}
+    return FileResponse(file_path, media_type="image/jpeg")
