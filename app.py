@@ -1,3 +1,4 @@
+import mimetypes
 import os
 from fastapi import FastAPI
 import json
@@ -41,9 +42,11 @@ def get_station(station_name: str):
             if station["name"].lower() == station_name.lower():
                 return station
     return {"error": "Station not found"}
+
 # Mount a "static" folder to serve images
+mimetypes.add_type("image/png", ".png")
+
 static_dir = os.path.join(os.getcwd(), "static")
-os.makedirs(static_dir, exist_ok=True)  # make sure it exists
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 @app.get("/pic")
