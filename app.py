@@ -37,3 +37,7 @@ def get_station(station_name: str):
             if station["name"].lower() == station_name.lower():
                 return station
     return {"error": "Station not found"}
+
+@app.get("/pic")
+def get_pic():
+    return FileResponse("Rubber_Duck.png", media_type="image/png")

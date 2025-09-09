@@ -1500,7 +1500,7 @@
         "route": "Amsterdam Centraal - Amersfoort Vathorst",
         "country": "NL",
         "allStations": [
-            "Amsterdam Centraal",
+            "Amsterdam Centraal", 
             "Amsterdam Muiderpoort",
             "Amsterdam Science Park",
             "Diemen",
