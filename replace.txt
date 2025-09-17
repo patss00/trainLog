@@ -1,0 +1,4 @@
+patricia.silva@brightenconsulting.com==patricia.sarreira.silva@gmail.com
+Patricia.Silva@brightenconsulting.com==patricia.sarreira.silva@gmail.com
+patricia.silva+something@brightenconsulting.com==patricia.sarreira.silva@gmail.com
+

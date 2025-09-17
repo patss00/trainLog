@@ -1,0 +1,2514 @@
+{
+    "cutes": [
+        "acho que devias estar sentada na bancada da minha cozinha",
+        "ocupas a maior parte do meu coração",
+        "tenho saudades de ficar a ver os teus olhos cintilar",
+        "tu <3",
+        "tenho saudades tuas?????????",
+        "volta",
+        "tenho saudades do abraço que me davas cada vez que te ia buscar à rodoviária",
+        "fazes-me tão feliz",
+        "tu, meu amor, apenas tu <3"
+    ],
+    "screen": {
+        "greeting": "Hi, cutie",
+        "clickme1": "click me for something cute",
+        "clickme2": "or click me for a kiss",
+        "login": "are you cat?"
+    },
+    "allStations": [
+        "Den Helder",
+        "Den Helder Zuid",
+        "Anna Paulowna",
+        "Schagen",
+        "Heerhugowaard",
+        "Alkmaar Noord",
+        "Alkmaar",
+        "Heiloo",
+        "Castricum",
+        "Zaandam",
+        "Amsterdam Sloterdijk",
+        "Amsterdam Centraal",
+        "Amsterdam Amstel",
+        "Utrecht Centraal",
+        "Driebergen-Zeist",
+        "Ede-Wageningen",
+        "Arnhem Centraal",
+        "Nijmegen",
+        "Amsterdam Muiderpoort",
+        "Amsterdam Science Park",
+        "Diemen",
+        "Weesp",
+        "Naarden-Bussum",
+        "Bussum Zuid",
+        "Hilversum Media Park",
+        "Hilversum",
+        "Baarn",
+        "Amersfoort Centraal",
+        "Amersfoort Schothorst",
+        "Amersfoort Vathorst"
+    ],
+    "lines": [
+    {
+        "id": "IC3000",
+        "route": "Den Helder - Nijmegen",
+        "country": "NL",
+        "allStations": [
+            "Den Helder",
+            "Den Helder Zuid",
+            "Anna Paulowna",
+            "Schagen",
+            "Heerhugowaard",
+            "Alkmaar Noord",
+            "Alkmaar",
+            "Heiloo",
+            "Castricum",
+            "Zaandam",
+            "Amsterdam Sloterdijk",
+            "Amsterdam Centraal",
+            "Amsterdam Amstel",
+            "Utrecht Centraal",
+            "Driebergen-Zeist",
+            "Ede-Wageningen",
+            "Arnhem Centraal",
+            "Nijmegen"
+        ],
+        "stations": [
+        {
+            "name": "Den Helder",
+            "prices":[
+            {
+                "to": "Den Helder Zuid",
+                "second_class": 2.8
+            },
+            {
+                "to": "Anna Paulowna",
+                "second_class": 3.5
+            },
+            {
+                "to": "Schagen",
+                "second_class": 3.5
+            },
+            {
+                "to": "Heerhugowaard",
+                "second_class": 8.3
+            },
+            {
+                "to": "Alkmaar Noord",
+                "second_class": 9.6
+            },
+            {
+                "to": "Alkmaar",
+                "second_class": 8.3
+            },
+            {
+                "to": "Heiloo",
+                "second_class": 10.9
+            },
+            {
+                "to": "Castricum",
+                "second_class": 12.3
+            },
+            {
+                "to": "Zaandam",
+                "second_class": 15.8
+            },
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 17.1
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 17.9
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 19.0
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 24.1
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 25.3
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 27.9
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 29.3
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 30.9
+            }
+            ]
+        },
+        {
+            "name": "Den Helder Zuid",
+            "prices":[
+            {
+                "to": "Anna Paulowna",
+                "second_class": 3.3
+            },
+            {
+                "to": "Schagen",
+                "second_class": 5.2
+            },
+            {
+                "to": "Heerhugowaard",
+                "second_class": 8.1
+            },
+            {
+                "to": "Alkmaar Noord",
+                "second_class": 9.4
+            },
+            {
+                "to": "Alkmaar",
+                "second_class": 9.6
+            },
+            {
+                "to": "Heiloo",
+                "second_class": 10.6
+            },
+            {
+                "to": "Castricum",
+                "second_class": 12.1
+            },
+            {
+                "to": "Zaandam",
+                "second_class": 15.7
+            },
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 16.9
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 17.7
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 18.8
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 23.9
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 25.2
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 27.8
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 29.2
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 30.8
+            }
+            ]
+        },
+        {
+            "name": "Anna Paulowna",
+            "prices":[
+            {
+                "to": "Schagen",
+                "second_class": 3.1
+            },
+            {
+                "to": "Heerhugowaard",
+                "second_class": 6.0
+            },
+            {
+                "to": "Alkmaar Noord",
+                "second_class": 7.2
+            },
+            {
+                "to": "Alkmaar",
+                "second_class": 7.5
+            },
+            {
+                "to": "Heiloo",
+                "second_class": 8.6
+            },
+            {
+                "to": "Castricum",
+                "second_class": 10.0
+            },
+            {
+                "to": "Zaandam",
+                "second_class": 13.6
+            },
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 14.9
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 15.7
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 16.9
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 22.4
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 24.2
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 27.0
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 28.4
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 30.0
+            }
+            ]
+        },
+        {
+            "name": "Schagen",
+            "prices":[
+            {
+                "to": "Heerhugowaard",
+                "second_class": 4.1
+            },
+            {
+                "to": "Alkmaar Noord",
+                "second_class": 5.4
+            },
+            {
+                "to": "Alkmaar",
+                "second_class": 5.6
+            },
+            {
+                "to": "Heiloo",
+                "second_class": 6.7
+            },
+            {
+                "to": "Castricum",
+                "second_class": 8.1
+            },
+            {
+                "to": "Zaandam",
+                "second_class": 11.7
+            },
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 12.9
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 13.8
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 15.2
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 21.1
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 22.9
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 26.1
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 27.6
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 29.2
+            }
+            ]
+        },
+        {
+            "name": "Heerhugowaard",
+            "prices":[
+            {
+                "to": "Alkmaar Noord",
+                "second_class": 2.8
+            },
+            {
+                "to": "Alkmaar",
+                "second_class": 2.8
+            },
+            {
+                "to": "Heiloo",
+                "second_class": 3.7
+            },
+            {
+                "to": "Castricum",
+                "second_class": 5.2
+            },
+            {
+                "to": "Zaandam",
+                "second_class": 8.8
+            },
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 10.0
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 10.9
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 12.1
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 18.8
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 20.8
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 24.8
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 26.4
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 28.1
+            }
+            ]
+        },
+        {
+            "name": "Alkmaar Noord",
+            "prices":[
+            {
+                "to": "Alkmaar",
+                "second_class": 2.8
+            },
+            {
+                "to": "Heiloo",
+                "second_class": 2.8
+            },
+            {
+                "to": "Castricum",
+                "second_class": 3.9
+            },
+            {
+                "to": "Zaandam",
+                "second_class": 7.5
+            },
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 8.8
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 9.6
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 10.9
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 17.7
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 19.8
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 24.2
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 25.8
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 27.6
+            }
+            ]
+        },
+        {
+            "name": "Alkmaar",
+            "prices":[
+            {
+                "to": "Heiloo",
+                "second_class": 2.8
+            },
+            {
+                "to": "Castricum",
+                "second_class": 3.7
+            },
+            {
+                "to": "Zaandam",
+                "second_class": 7.3
+            },
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 8.6
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 9.4
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 10.6
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 17.5
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 19.7
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 24.1
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 25.7
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 27.5
+            }
+            ]
+        },
+        {
+            "name": "Heiloo",
+            "prices":[
+            {
+                "to": "Castricum",
+                "second_class": 2.8
+            },
+            {
+                "to": "Zaandam",
+                "second_class": 6.2
+            },
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 7.5
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 8.3
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 9.6
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 16.5
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 18.8
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 23.3
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 25.3
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 27.0
+            }
+            ]
+        },
+        {
+            "name": "Castricum",
+            "prices":[
+            {
+                "to": "Zaandam",
+                "second_class": 4.8
+            },
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 6.0
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 6.9
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 8.1
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 15.2
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 17.50
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 22.3
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 24.6
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 26.4
+            }
+            ]
+        },
+        {
+            "name": "Zaandam",
+            "prices":[
+            {
+                "to": "Amsterdam Sloterdijk",
+                "second_class": 2.8
+            },
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 3.3
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 4.6
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 11.5
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 14.0
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 19.7
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 22.3
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 24.8
+            }
+            ]
+        },
+        {
+            "name": "Amsterdam Sloterdijk",
+            "prices":[
+            {
+                "to": "Amsterdam Centraal",
+                "second_class": 2.8
+            },
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 3.3
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 10.2
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 12.7
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 18.6
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 21.4
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 24.2
+            }
+            ]
+        },
+        {
+            "name": "Amsterdam Centraal",
+            "prices":[
+            {
+                "to": "Amsterdam Amstel",
+                "second_class": 2.8
+            },
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 9.4
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 11.9
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 17.9
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 20.8
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 23.6
+            }
+            ]
+        },
+        {
+            "name": "Amsterdam Amstel",
+            "prices":[
+            {
+                "to": "Utrecht Centraal",
+                "second_class": 8.1
+            },
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 10.6
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 16.7
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 19.8
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 22.7
+            }
+            ]
+        },
+        {
+            "name": "Utrecht Centraal",
+            "prices":[
+            {
+                "to": "Driebergen-Zeist",
+                "second_class": 3.7
+            },
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 9.8
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 13.3
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 17.3
+            }
+            ]
+        },
+        {
+            "name": "Driebergen-Zeist",
+            "prices":[
+            {
+                "to": "Ede-Wageningen",
+                "second_class": 7.3
+            },
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 10.9
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 14.9
+            }
+            ]
+        },
+        {
+            "name": "Ede-Wageningen",
+            "prices":[
+            {
+                "to": "Arnhem Centraal",
+                "second_class": 4.8
+            },
+            {
+                "to": "Nijmegen",
+                "second_class": 8.8
+            }
+            ]
+        },
+        {
+            "name": "Arnhem Centraal",
+            "prices":[
+            {
+                "to": "Nijmegen",
+                "second_class": 5.2
+            }
+            ]
+        }
+        ],
+        "connections": 
+            {
+                "go": [
+                    {
+                        "from": "Den Helder",
+                        "to": "Den Helder Zuid",
+                        "time": 4
+                    },
+                    {
+                        "from": "Den Helder Zuid",
+                        "to": "Anna Paulowna",
+                        "time": 6
+                    },
+                    {
+                        "from": "Anna Paulowna",
+                        "to": "Schagen",
+                        "time": 8
+                    },
+                    {
+                        "from": "Schagen",
+                        "to": "Heerhugowaard",
+                        "time": 9
+                    },
+                    {
+                        "from": "Heerhugowaard",
+                        "to": "Alkmaar Noord",
+                        "time": 6
+                    },
+                    {
+                        "from": "Alkmaar Noord",
+                        "to": "Alkmaar",
+                        "time": 4
+                    },
+                    {
+                        "from": "Alkmaar",
+                        "to": "Heiloo",
+                        "time": 8
+                    },
+                    {
+                        "from": "Heiloo",
+                        "to": "Castricum",
+                        "time": 6
+                    },
+                    {
+                        "from": "Castricum",
+                        "to": "Zaandam",
+                        "time": 13
+                    },
+                    {
+                        "from": "Zaandam",
+                        "to": "Amsterdam Sloterdijk",
+                        "time": 7
+                    },
+                    {
+                        "from": "Amsterdam Sloterdijk",
+                        "to": "Amsterdam Centraal",
+                        "time": 6
+                    },
+                    {
+                        "from": "Amsterdam Centraal",
+                        "to": "Amsterdam Amstel",
+                        "time": 10
+                    },
+                    {
+                        "from": "Amsterdam Amstel",
+                        "to": "Utrecht Centraal",
+                        "time": 20
+                    },
+                    {
+                        "from": "Utrecht Centraal",
+                        "to": "Driebergen-Zeist",
+                        "time": 10
+                    },
+                    {
+                        "from": "Driebergen-Zeist",
+                        "to": "Ede-Wageningen",
+                        "time": 17
+                    },
+                    {
+                        "from": "Ede-Wageningen",
+                        "to": "Arnhem Centraal",
+                        "time": 10
+                    },
+                    {
+                        "from": "Arnhem Centraal",
+                        "to": "Nijmegen",
+                        "time": 17
+                    }
+                ],
+                "back": [
+                    {
+                        "from": "Nijmegen",
+                        "to": "Arnhem Centraal",
+                        "time": 17
+                    },
+                    {
+                        "from": "Arnhem Centraal",
+                        "to": "Ede-Wageningen",
+                        "time": 10
+                    },
+                    {
+                        "from": "Ede-Wageningen",
+                        "to": "Driebergen-Zeist",
+                        "time": 17
+                    },
+                    {
+                        "from": "Driebergen-Zeist",
+                        "to": "Utrecht Centraal",
+                        "time": 10
+                    },
+                    {
+                        "from": "Utrecht Centraal",
+                        "to": "Amsterdam Amstel",
+                        "time": 20
+                    },
+                    {
+                        "from": "Amsterdam Amstel",
+                        "to": "Amsterdam Centraal",
+                        "time": 10
+                    },
+                    {
+                        "from": "Amsterdam Centraal",
+                        "to": "Amsterdam Sloterdijk",
+                        "time": 6
+                    },
+                    {
+                        "from": "Amsterdam Sloterdijk",
+                        "to": "Zaandam",
+                        "time": 7
+                    },
+                    {
+                        "from": "Zaandam",
+                        "to": "Castricum",
+                        "time": 13
+                    },
+                    {
+                        "from": "Castricum",
+                        "to": "Heiloo",
+                        "time": 6
+                    },
+                    {
+                        "from": "Heiloo",
+                        "to": "Alkmaar",
+                        "time": 8
+                    },
+                    {
+                        "from": "Alkmaar",
+                        "to": "Alkmaar Noord",
+                        "time": 4
+                    },
+                    {
+                        "from": "Alkmaar Noord",
+                        "to": "Heerhugowaard",
+                        "time": 6
+                    },
+                    {
+                        "from": "Heerhugowaard",
+                        "to": "Schagen",
+                        "time": 9
+                    },
+                    {
+                        "from": "Schagen",
+                        "to": "Anna Paulowna",
+                        "time": 8
+                    },
+                    {
+                        "from": "Anna Paulowna",
+                        "to": "Den Helder Zuid",
+                        "time": 6
+                    },
+                    {
+                        "from": "Den Helder Zuid",
+                        "to": "Den Helder",
+                        "time": 4
+                    }
+                ]
+            },
+        "timetables":
+        [
+            {
+                "day": "monday",
+                "departuresGo": [
+                    "05:04",
+                    "05:35",
+                    "06:04",
+                    "06:34",
+                    "06:46",
+                    "07:04",
+                    "07:16",
+                    "07:34",
+                    "08:04",
+                    "08:34",
+                    "09:04",
+                    "09:34",
+                    "10:04",
+                    "10:34",
+                    "11:04",
+                    "11:34",
+                    "12:04",
+                    "12:34",
+                    "13:04",
+                    "13:34",
+                    "14:04",
+                    "14:34",
+                    "15:04",
+                    "15:34",
+                    "16:04",
+                    "16:34",
+                    "17:04",
+                    "17:34",
+                    "18:04",
+                    "18:34",
+                    "19:04",
+                    "19:34",
+                    "20:04",
+                    "20:34",
+                    "21:04",
+                    "21:34",
+                    "22:04"
+                ],
+                "departuresBack": [
+                    "05:36",
+                    "06:13",
+                    "06:43",
+                    "07:13",
+                    "07:43",
+                    "08:13",
+                    "08:43",
+                    "09:13",
+                    "09:43",
+                    "10:13",
+                    "10:43",
+                    "11:13",
+                    "11:43",
+                    "12:13",
+                    "12:43",
+                    "13:13",
+                    "13:43",
+                    "14:13",
+                    "14:43",
+                    "15:13",
+                    "15:43",
+                    "16:13",
+                    "16:43",
+                    "17:13",
+                    "17:43",
+                    "18:13",
+                    "18:43",
+                    "19:13",
+                    "19:43",
+                    "20:13",
+                    "20:43",
+                    "21:13",
+                    "21:43",
+                    "22:13",
+                    "22:43"
+                ]
+            },
+            {
+                "day": "tuesday",
+                "departuresGo": [
+                    "05:04",
+                    "05:35",
+                    "06:04",
+                    "06:34",
+                    "06:46",
+                    "07:04",
+                    "07:16",
+                    "07:34",
+                    "08:04",
+                    "08:34",
+                    "09:04",
+                    "09:34",
+                    "10:04",
+                    "10:34",
+                    "11:04",
+                    "11:34",
+                    "12:04",
+                    "12:34",
+                    "13:04",
+                    "13:34",
+                    "14:04",
+                    "14:34",
+                    "15:04",
+                    "15:34",
+                    "16:04",
+                    "16:34",
+                    "17:04",
+                    "17:34",
+                    "18:04",
+                    "18:34",
+                    "19:04",
+                    "19:34",
+                    "20:04",
+                    "20:34",
+                    "21:04",
+                    "21:34",
+                    "22:04"
+                ],
+                "departuresBack": [
+                    "05:36",
+                    "06:13",
+                    "06:43",
+                    "07:13",
+                    "07:43",
+                    "08:13",
+                    "08:43",
+                    "09:13",
+                    "09:43",
+                    "10:13",
+                    "10:43",
+                    "11:13",
+                    "11:43",
+                    "12:13",
+                    "12:43",
+                    "13:13",
+                    "13:43",
+                    "14:13",
+                    "14:43",
+                    "15:13",
+                    "15:43",
+                    "16:13",
+                    "16:43",
+                    "17:13",
+                    "17:43",
+                    "18:13",
+                    "18:43",
+                    "19:13",
+                    "19:43",
+                    "20:13",
+                    "20:43",
+                    "21:13",
+                    "21:43",
+                    "22:13",
+                    "22:43"
+                ]
+            },
+            {
+                "day": "wednesday",
+                "departuresGo": [
+                    "05:04",
+                    "05:35",
+                    "06:04",
+                    "06:34",
+                    "06:46",
+                    "07:04",
+                    "07:16",
+                    "07:34",
+                    "08:04",
+                    "08:34",
+                    "09:04",
+                    "09:34",
+                    "10:04",
+                    "10:34",
+                    "11:04",
+                    "11:34",
+                    "12:04",
+                    "12:34",
+                    "13:04",
+                    "13:34",
+                    "14:04",
+                    "14:34",
+                    "15:04",
+                    "15:34",
+                    "16:04",
+                    "16:34",
+                    "17:04",
+                    "17:34",
+                    "18:04",
+                    "18:34",
+                    "19:04",
+                    "19:34",
+                    "20:04",
+                    "20:34",
+                    "21:04",
+                    "21:34",
+                    "22:04"
+                ],
+                "departuresBack": [
+                    "05:36",
+                    "06:13",
+                    "06:43",
+                    "07:13",
+                    "07:43",
+                    "08:13",
+                    "08:43",
+                    "09:13",
+                    "09:43",
+                    "10:13",
+                    "10:43",
+                    "11:13",
+                    "11:43",
+                    "12:13",
+                    "12:43",
+                    "13:13",
+                    "13:43",
+                    "14:13",
+                    "14:43",
+                    "15:13",
+                    "15:43",
+                    "16:13",
+                    "16:43",
+                    "17:13",
+                    "17:43",
+                    "18:13",
+                    "18:43",
+                    "19:13",
+                    "19:43",
+                    "20:13",
+                    "20:43",
+                    "21:13",
+                    "21:43",
+                    "22:13",
+                    "22:43"
+                ]
+            },
+            {
+                "day": "thursday",
+                "departuresGo": [
+                    "05:04",
+                    "05:35",
+                    "06:04",
+                    "06:34",
+                    "06:46",
+                    "07:04",
+                    "07:16",
+                    "07:34",
+                    "08:04",
+                    "08:34",
+                    "09:04",
+                    "09:34",
+                    "10:04",
+                    "10:34",
+                    "11:04",
+                    "11:34",
+                    "12:04",
+                    "12:34",
+                    "13:04",
+                    "13:34",
+                    "14:04",
+                    "14:34",
+                    "15:04",
+                    "15:34",
+                    "16:04",
+                    "16:34",
+                    "17:04",
+                    "17:34",
+                    "18:04",
+                    "18:34",
+                    "19:04",
+                    "19:34",
+                    "20:04",
+                    "20:34",
+                    "21:04",
+                    "21:34",
+                    "22:04"
+                ],
+                "departuresBack": [
+                    "05:36",
+                    "06:13",
+                    "06:43",
+                    "07:13",
+                    "07:43",
+                    "08:13",
+                    "08:43",
+                    "09:13",
+                    "09:43",
+                    "10:13",
+                    "10:43",
+                    "11:13",
+                    "11:43",
+                    "12:13",
+                    "12:43",
+                    "13:13",
+                    "13:43",
+                    "14:13",
+                    "14:43",
+                    "15:13",
+                    "15:43",
+                    "16:13",
+                    "16:43",
+                    "17:13",
+                    "17:43",
+                    "18:13",
+                    "18:43",
+                    "19:13",
+                    "19:43",
+                    "20:13",
+                    "20:43",
+                    "21:13",
+                    "21:43",
+                    "22:13",
+                    "22:43"
+                ]
+            },
+            {
+                "day": "friday",
+                "departuresGo": [
+                    "04:48",
+                    "05:18",
+                    "05:48",
+                    "06:18",
+                    "06:48",
+                    "07:18",
+                    "07:48",
+                    "08:18",
+                    "08:48",
+                    "09:18",
+                    "09:48",
+                    "10:18",
+                    "10:48",
+                    "11:18",
+                    "11:48",
+                    "12:18",
+                    "12:48",
+                    "13:18",
+                    "13:48",
+                    "14:18",
+                    "14:48",
+                    "15:18",
+                    "15:48",
+                    "16:18",
+                    "16:48",
+                    "17:18",
+                    "17:48",
+                    "18:18",
+                    "18:48",
+                    "19:18",
+                    "19:48",
+                    "20:18",
+                    "20:48",
+                    "21:18",
+                    "21:48",
+                    "22:48",
+                    "23:48"
+                ],
+                "departuresBack": [
+                    "05:36",
+                    "06:13",
+                    "06:43",
+                    "07:13",
+                    "07:43",
+                    "08:13",
+                    "08:43",
+                    "09:13",
+                    "09:43",
+                    "10:13",
+                    "10:43",
+                    "11:13",
+                    "11:43",
+                    "12:13",
+                    "12:43",
+                    "13:13",
+                    "13:43",
+                    "14:13",
+                    "14:43",
+                    "15:13",
+                    "15:43",
+                    "16:13",
+                    "16:43",
+                    "17:13",
+                    "17:43",
+                    "18:13",
+                    "18:43",
+                    "19:13",
+                    "19:43",
+                    "20:13",
+                    "20:43",
+                    "21:13",
+                    "21:43",
+                    "22:13",
+                    "22:43",
+                    "23:43"
+                ]
+            },
+            {
+                "day": "saturday",
+                "departuresGo": [
+                    "06:18",
+                    "06:48",
+                    "07:18",
+                    "07:48",
+                    "08:18",
+                    "08:48",
+                    "09:18",
+                    "09:48",
+                    "10:18",
+                    "10:48",
+                    "11:18",
+                    "11:48",
+                    "12:18",
+                    "12:48",
+                    "13:18",
+                    "13:48",
+                    "14:18",
+                    "14:48",
+                    "15:18",
+                    "15:48",
+                    "16:18",
+                    "16:48",
+                    "17:18",
+                    "17:48",
+                    "18:18",
+                    "18:48",
+                    "19:18",
+                    "19:48",
+                    "20:18",
+                    "20:48",
+                    "21:18",
+                    "21:48",
+                    "22:48"
+                ],
+                "departuresBack": [
+                    "06:13",
+                    "06:43",
+                    "07:13",
+                    "07:43",
+                    "08:13",
+                    "08:43",
+                    "09:13",
+                    "09:43",
+                    "10:13",
+                    "10:43",
+                    "11:13",
+                    "11:43",
+                    "12:13",
+                    "12:43",
+                    "13:13",
+                    "13:43",
+                    "14:13",
+                    "14:43",
+                    "15:13",
+                    "15:43",
+                    "16:13",
+                    "16:43",
+                    "17:13",
+                    "17:43",
+                    "18:13",
+                    "18:43",
+                    "19:13",
+                    "19:43",
+                    "20:13",
+                    "20:43",
+                    "21:13",
+                    "21:43",
+                    "22:13",
+                    "22:43",
+                    "23:43"
+                ]
+            },
+            {
+                "day": "sunday",
+                "departuresGo": [
+                    "05:48",
+                    "06:48",
+                    "07:18",
+                    "07:48",
+                    "08:18",
+                    "08:48",
+                    "09:18",
+                    "09:48",
+                    "10:18",
+                    "10:48",
+                    "11:18",
+                    "11:48",
+                    "12:18",
+                    "12:48",
+                    "13:18",
+                    "13:48",
+                    "14:18",
+                    "14:48",
+                    "15:18",
+                    "15:48",
+                    "16:18",
+                    "16:48",
+                    "17:18",
+                    "17:48",
+                    "18:18",
+                    "18:48",
+                    "19:18",
+                    "19:48",
+                    "20:18",
+                    "20:48",
+                    "21:18",
+                    "21:48",
+                    "22:48"
+                ],
+                "departuresBack": [
+                    "06:13",
+                    "06:43",
+                    "07:13",
+                    "07:43",
+                    "08:13",
+                    "08:43",
+                    "09:13",
+                    "09:43",
+                    "10:13",
+                    "10:43",
+                    "11:13",
+                    "11:43",
+                    "12:13",
+                    "12:43",
+                    "13:13",
+                    "13:43",
+                    "14:13",
+                    "14:43",
+                    "15:13",
+                    "15:43",
+                    "16:13",
+                    "16:43",
+                    "17:13",
+                    "17:43",
+                    "18:13",
+                    "18:43",
+                    "19:13",
+                    "19:43",
+                    "20:13",
+                    "20:43",
+                    "21:13",
+                    "21:43",
+                    "22:13",
+                    "22:43",
+                    "23:43"
+                ]
+            }
+        ]
+        
+    },
+    {
+        "id": "S5800",
+        "route": "Amsterdam Centraal - Amersfoort Vathorst",
+        "country": "NL",
+        "allStations": [
+            "Amsterdam Centraal", 
+            "Amsterdam Muiderpoort",
+            "Amsterdam Science Park",
+            "Diemen",
+            "Weesp",
+            "Naarden-Bussum",
+            "Bussum Zuid",
+            "Hilversum Media Park",
+            "Hilversum",
+            "Baarn",
+            "Amersfoort Centraal",
+            "Amersfoort Schothorst",
+            "Amersfoort Vathorst"
+        ],
+        "stations": [
+            {
+            "name": "Amsterdam Centraal",
+            "prices":[
+            {
+                "to": "Amsterdam Muiderpoort",
+                "second_class": 2.8
+            },
+            {
+                "to": "Amsterdam Science Park",
+                "second_class": 2.8
+            },
+            {
+                "to": "Diemen",
+                "second_class": 2.8
+            },
+            {
+                "to": "Weesp",
+                "second_class": 4.1
+            },
+            {
+                "to": "Naarden-Bussum",
+                "second_class": 6.0
+            },
+            {
+                "to": "Bussum Zuid",
+                "second_class": 6.2
+            },
+            {
+                "to": "Hilversum Media Park",
+                "second_class": 7.1
+            },
+            {
+                "to": "Hilversum",
+                "second_class": 7.3
+            },
+            {
+                "to": "Baarn",
+                "second_class": 8.8
+            },
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 10.6
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 11.3
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 11.9
+            }
+            ]
+        },
+        {
+            "name": "Amsterdam Muiderpoort",
+            "prices":[
+            {
+                "to": "Amsterdam Science Park",
+                "second_class": 2.8
+            },
+            {
+                "to": "Diemen",
+                "second_class": 2.8
+            },
+            {
+                "to": "Weesp",
+                "second_class": 3.3
+            },
+            {
+                "to": "Naarden-Bussum",
+                "second_class": 5.2
+            },
+            {
+                "to": "Bussum Zuid",
+                "second_class": 5.4
+            },
+            {
+                "to": "Hilversum Media Park",
+                "second_class": 6.2
+            },
+            {
+                "to": "Hilversum",
+                "second_class": 6.5
+            },
+            {
+                "to": "Baarn",
+                "second_class": 7.9
+            },
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 9.8
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 10.4
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 11.1
+            }
+            ]
+        },
+        {
+            "name": "Amsterdam Science Park",
+            "prices":[
+            {
+                "to": "Diemen",
+                "second_class": 2.8
+            },
+            {
+                "to": "Weesp",
+                "second_class": 3.1
+            },
+            {
+                "to": "Naarden-Bussum",
+                "second_class": 5.0
+            },
+            {
+                "to": "Bussum Zuid",
+                "second_class": 5.2
+            },
+            {
+                "to": "Hilversum Media Park",
+                "second_class": 6.0
+            },
+            {
+                "to": "Hilversum",
+                "second_class": 6.2
+            },
+            {
+                "to": "Baarn",
+                "second_class": 7.7
+            },
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 9.6
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 10.2
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 10.9
+            }
+            ]
+        },
+        {
+            "name": "Diemen",
+            "prices":[
+            {
+                "to": "Weesp",
+                "second_class": 2.8
+            },
+            {
+                "to": "Naarden-Bussum",
+                "second_class": 4.6
+            },
+            {
+                "to": "Bussum Zuid",
+                "second_class": 4.8
+            },
+            {
+                "to": "Hilversum Media Park",
+                "second_class": 5.6
+            },
+            {
+                "to": "Hilversum",
+                "second_class": 5.8
+            },
+            {
+                "to": "Baarn",
+                "second_class": 7.3
+            },
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 9.2
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 9.8
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 10.4
+            }
+            ]
+        },
+        {
+            "name": "Wesp",
+            "prices":[
+            {
+                "to": "Naarden-Bussum",
+                "second_class": 3.1
+            },
+            {
+                "to": "Bussum Zuid",
+                "second_class": 3.3
+            },
+            {
+                "to": "Hilversum Media Park",
+                "second_class": 4.1
+            },
+            {
+                "to": "Hilversum",
+                "second_class": 4.4
+            },
+            {
+                "to": "Baarn",
+                "second_class": 5.8
+            },
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 7.7
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 8.3
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 9.0
+            }
+            ]
+        },
+        {
+            "name": "Naarden-Bussum",
+            "prices":[
+            {
+                "to": "Bussum Zuid",
+                "second_class": 2.8
+            },
+            {
+                "to": "Hilversum Media Park",
+                "second_class": 2.8
+            },
+            {
+                "to": "Hilversum",
+                "second_class": 2.8
+            },
+            {
+                "to": "Baarn",
+                "second_class": 3.9
+            },
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 5.8
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 6.5
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 7.7
+            }
+            ]
+        },
+        {
+            "name": "Bussum Zuid",
+            "prices":[
+            {
+                "to": "Hilversum Media Park",
+                "second_class": 2.8
+            },
+            {
+                "to": "Hilversum",
+                "second_class": 2.8
+            },
+            {
+                "to": "Baarn",
+                "second_class": 3.7
+            },
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 5.6
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 6.2
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 6.9
+            }
+            ]
+        },
+        {
+            "name": "Hilversum Media Park",
+            "prices":[
+            {
+                "to": "Hilversum",
+                "second_class": 2.8
+            },
+            {
+                "to": "Baarn",
+                "second_class": 2.8
+            },
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 4.8
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 5.4
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 6.0
+            }
+            ]
+        },
+        {
+            "name": "Hilversum",
+            "prices":[
+            {
+                "to": "Baarn",
+                "second_class": 2.8
+            },
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 4.6
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 5.2
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 5.8
+            }
+            ]
+        },
+        {
+            "name": "Baarn",
+            "prices":[
+            {
+                "to": "Amersfoort Centraal",
+                "second_class": 3.1
+            },
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 3.7
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 4.4
+            }
+            ]
+        },
+        {
+            "name": "Amersfoort Centraal",
+            "prices":[
+            {
+                "to": "Amersfoort Schothorst",
+                "second_class": 2.8
+            },
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 2.8
+            }
+            ]
+        },
+        {
+            "name": "Amersfoort Schothorst",
+            "prices":[
+            {
+                "to": "Amersfoort Vathorst",
+                "second_class": 2.8
+            }
+            ]
+        }
+        ],
+        "connections": {
+            "go": [
+                {
+                    "from": "Amsterdam Centraal",
+                    "to": "Amsterdam Muiderpoort",
+                    "time": 5
+                },
+                {
+                    "from": "Amsterdam Muiderpoort",
+                    "to": "Amsterdam Science Park",
+                    "time": 3
+                },
+                {
+                    "from": "Amsterdam Science Park",
+                    "to": "Diemen",
+                    "time": 3
+                },
+                {
+                    "from": "Diemen",
+                    "to": "Weesp",
+                    "time": 7
+                },
+                {
+                    "from": "Weesp",
+                    "to": "Naarden-Bussum",
+                    "time": 6
+                },
+                {
+                    "from": "Naarden-Bussum",
+                    "to": "Bussum Zuid",
+                    "time": 3
+                },
+                {
+                    "from": "Bussum Zuid",
+                    "to": "Hilversum Media Park",
+                    "time": 4
+                },
+                {
+                    "from": "Hilversum Media Park",
+                    "to": "Hilversum",
+                    "time": 3
+                },
+                {
+                    "from": "Hilversum",
+                    "to": "Baarn",
+                    "time": 6
+                },
+                {
+                    "from": "Baarn",
+                    "to": "Amersfoort Centraal",
+                    "time": 8
+                },
+                {
+                    "from": "Amsterdam Centraal",
+                    "to": "Amersfoort Schothorst",
+                    "time": 4
+                },
+                {
+                    "from": "Amersfoort Schothorst",
+                    "to": "Amersfoort Vathorst",
+                    "time": 3
+                }
+            ],
+            "back": [
+                {
+                    "from": "Amersfoort Vathorst",
+                    "to": "Amersfoort Schothorst",
+                    "time": 3
+                },
+                {
+                    "from": "Amersfoort Schothorst",
+                    "to": "Amsterdam Centraal",
+                    "time": 4
+                },
+                {
+                    "from": "Amersfoort Centraal",
+                    "to": "Baarn",
+                    "time": 8
+                },
+                {
+                    "from": "Baarn",
+                    "to": "Hilversum",
+                    "time": 6
+                },
+                {
+                    "from": "Hilversum",
+                    "to": "Hilversum Media Park",
+                    "time": 3
+                },
+                {
+                    "from": "Hilversum Media Park",
+                    "to": "Bussum Zuid",
+                    "time": 4
+                },
+                {
+                    "from": "Bussum Zuid",
+                    "to": "Naarden-Bussum",
+                    "time": 3
+                },
+                {
+                    "from": "Naarden-Bussum",
+                    "to": "Weesp",
+                    "time": 6
+                },
+                {
+                    "from": "Weesp",
+                    "to": "Diemen",
+                    "time": 7
+                },
+                {
+                    "from": "Diemen",
+                    "to": "Amsterdam Science Park",
+                    "time": 3
+                },
+                {
+                    "from": "Amsterdam Science Park",
+                    "to": "Amsterdam Muiderpoort",
+                    "time": 3
+                },
+                {
+                    "from": "Amsterdam Muiderpoort",
+                    "to": "Amsterdam Centraal",
+                    "time": 5
+                }
+            ]
+        },
+        "timetables": [
+            {
+                "day": "monday",
+                "departuresGo": [
+                    "05:41",
+                    "06:11",
+                    "06:41",
+                    "07:11",
+                    "07:41",
+                    "08:11",
+                    "08:41",
+                    "09:11",
+                    "09:41",
+                    "10:11",
+                    "10:41",
+                    "11:11",
+                    "11:41",
+                    "12:11",
+                    "12:41",
+                    "13:11",
+                    "13:41",
+                    "14:11",
+                    "14:41",
+                    "15:11",
+                    "15:41",
+                    "16:11",
+                    "16:41",
+                    "17:11",
+                    "17:41",
+                    "18:11",
+                    "18:41",
+                    "19:11",
+                    "19:41",
+                    "20:11",
+                    "20:41",
+                    "21:11"
+                ],
+                "departuresBack": [
+                    "06:52",
+                    "07:22",
+                    "07:52",
+                    "08:22",
+                    "08:52",
+                    "09:22",
+                    "09:52",
+                    "10:22",
+                    "10:52",
+                    "11:22",
+                    "11:52",
+                    "12:22",
+                    "12:52",
+                    "13:22",
+                    "13:52",
+                    "14:22",
+                    "14:52",
+                    "15:22",
+                    "15:52",
+                    "16:22",
+                    "16:52",
+                    "17:22",
+                    "17:52",
+                    "18:22",
+                    "18:52",
+                    "19:22",
+                    "19:52",
+                    "20:22",
+                    "20:52",
+                    "21:22",
+                    "21:52",
+                    "22:22"
+                ]
+            },
+            {
+                "day": "tuesday",
+                "departuresGo": [
+                    "05:41",
+                    "06:11",
+                    "06:41",
+                    "07:11",
+                    "07:41",
+                    "08:11",
+                    "08:41",
+                    "09:11",
+                    "09:41",
+                    "10:11",
+                    "10:41",
+                    "11:11",
+                    "11:41",
+                    "12:11",
+                    "12:41",
+                    "13:11",
+                    "13:41",
+                    "14:11",
+                    "14:41",
+                    "15:11",
+                    "15:41",
+                    "16:11",
+                    "16:41",
+                    "17:11",
+                    "17:41",
+                    "18:11",
+                    "18:41",
+                    "19:11",
+                    "19:41",
+                    "20:11",
+                    "20:41",
+                    "21:11"
+                ],
+                "departuresBack": [
+                    "06:52",
+                    "07:22",
+                    "07:52",
+                    "08:22",
+                    "08:52",
+                    "09:22",
+                    "09:52",
+                    "10:22",
+                    "10:52",
+                    "11:22",
+                    "11:52",
+                    "12:22",
+                    "12:52",
+                    "13:22",
+                    "13:52",
+                    "14:22",
+                    "14:52",
+                    "15:22",
+                    "15:52",
+                    "16:22",
+                    "16:52",
+                    "17:22",
+                    "17:52",
+                    "18:22",
+                    "18:52",
+                    "19:22",
+                    "19:52",
+                    "20:22",
+                    "20:52",
+                    "21:22",
+                    "21:52",
+                    "22:22"
+                ]
+            },
+            {
+                "day": "wednesday",
+                "departuresGo": [
+                    "05:41",
+                    "06:11",
+                    "06:41",
+                    "07:11",
+                    "07:41",
+                    "08:11",
+                    "08:41",
+                    "09:11",
+                    "09:41",
+                    "10:11",
+                    "10:41",
+                    "11:11",
+                    "11:41",
+                    "12:11",
+                    "12:41",
+                    "13:11",
+                    "13:41",
+                    "14:11",
+                    "14:41",
+                    "15:11",
+                    "15:41",
+                    "16:11",
+                    "16:41",
+                    "17:11",
+                    "17:41",
+                    "18:11",
+                    "18:41",
+                    "19:11",
+                    "19:41",
+                    "20:11",
+                    "20:41",
+                    "21:11"
+                ],
+                "departuresBack": [
+                    "06:52",
+                    "07:22",
+                    "07:52",
+                    "08:22",
+                    "08:52",
+                    "09:22",
+                    "09:52",
+                    "10:22",
+                    "10:52",
+                    "11:22",
+                    "11:52",
+                    "12:22",
+                    "12:52",
+                    "13:22",
+                    "13:52",
+                    "14:22",
+                    "14:52",
+                    "15:22",
+                    "15:52",
+                    "16:22",
+                    "16:52",
+                    "17:22",
+                    "17:52",
+                    "18:22",
+                    "18:52",
+                    "19:22",
+                    "19:52",
+                    "20:22",
+                    "20:52",
+                    "21:22",
+                    "21:52",
+                    "22:22"
+                ]
+            },
+            {
+                "day": "thursday",
+                "departuresGo": [
+                    "05:41",
+                    "06:11",
+                    "06:41",
+                    "07:11",
+                    "07:41",
+                    "08:11",
+                    "08:41",
+                    "09:11",
+                    "09:41",
+                    "10:11",
+                    "10:41",
+                    "11:11",
+                    "11:41",
+                    "12:11",
+                    "12:41",
+                    "13:11",
+                    "13:41",
+                    "14:11",
+                    "14:41",
+                    "15:11",
+                    "15:41",
+                    "16:11",
+                    "16:41",
+                    "17:11",
+                    "17:41",
+                    "18:11",
+                    "18:41",
+                    "19:11",
+                    "19:41",
+                    "20:11",
+                    "20:41",
+                    "21:11"
+                ],
+                "departuresBack": [
+                    "06:52",
+                    "07:22",
+                    "07:52",
+                    "08:22",
+                    "08:52",
+                    "09:22",
+                    "09:52",
+                    "10:22",
+                    "10:52",
+                    "11:22",
+                    "11:52",
+                    "12:22",
+                    "12:52",
+                    "13:22",
+                    "13:52",
+                    "14:22",
+                    "14:52",
+                    "15:22",
+                    "15:52",
+                    "16:22",
+                    "16:52",
+                    "17:22",
+                    "17:52",
+                    "18:22",
+                    "18:52",
+                    "19:22",
+                    "19:52",
+                    "20:22",
+                    "20:52",
+                    "21:22",
+                    "21:52",
+                    "22:22"
+                ]
+            },
+            {
+                "day": "friday",
+                "departuresGo": [
+                    "05:41",
+                    "06:11",
+                    "06:41",
+                    "07:11",
+                    "07:41",
+                    "08:11",
+                    "08:41",
+                    "09:11",
+                    "09:41",
+                    "10:11",
+                    "10:41",
+                    "11:11",
+                    "11:41",
+                    "12:11",
+                    "12:41",
+                    "13:11",
+                    "13:41",
+                    "14:11",
+                    "14:41",
+                    "15:11",
+                    "15:41",
+                    "16:11",
+                    "16:41",
+                    "17:11",
+                    "17:41",
+                    "18:11",
+                    "18:41",
+                    "19:11",
+                    "19:41",
+                    "20:11",
+                    "20:41",
+                    "21:11",
+                    "21:41",
+                    "22:11",
+                    "22:41",
+                    "23:11"
+                ],
+                "departuresBack": [
+                    "06:52",
+                    "07:22",
+                    "07:52",
+                    "08:22",
+                    "08:52",
+                    "09:22",
+                    "09:52",
+                    "10:22",
+                    "10:52",
+                    "11:22",
+                    "11:52",
+                    "12:22",
+                    "12:52",
+                    "13:22",
+                    "13:52",
+                    "14:22",
+                    "14:52",
+                    "15:22",
+                    "15:52",
+                    "16:22",
+                    "16:52",
+                    "17:22",
+                    "17:52",
+                    "18:22",
+                    "18:52",
+                    "19:22",
+                    "19:52",
+                    "20:22",
+                    "20:52",
+                    "21:22",
+                    "21:52",
+                    "22:22",
+                    "22:52",
+                    "23:22"
+                ]
+            },
+            {
+                "day": "saturday",
+                "departuresGo": [
+                    "06:41",
+                    "07:11",
+                    "07:41",
+                    "08:11",
+                    "08:41",
+                    "09:11",
+                    "09:41",
+                    "10:11",
+                    "10:41",
+                    "11:11",
+                    "11:41",
+                    "12:11",
+                    "12:41",
+                    "13:11",
+                    "13:41",
+                    "14:11",
+                    "14:41",
+                    "15:11",
+                    "15:41",
+                    "16:11",
+                    "16:41",
+                    "17:11",
+                    "17:41",
+                    "18:11",
+                    "18:41",
+                    "19:11",
+                    "19:41",
+                    "20:11",
+                    "20:41"
+                ],
+                "departuresBack": [
+                    "00:22",
+                    "07:52",
+                    "08:22",
+                    "08:52",
+                    "09:22",
+                    "09:52",
+                    "10:22",
+                    "10:52",
+                    "11:22",
+                    "11:52",
+                    "12:22",
+                    "12:52",
+                    "13:22",
+                    "13:52",
+                    "14:22",
+                    "14:52",
+                    "15:22",
+                    "15:52",
+                    "16:22",
+                    "16:52",
+                    "17:22",
+                    "17:52",
+                    "18:22",
+                    "18:52",
+                    "19:22",
+                    "19:52",
+                    "20:22",
+                    "20:52"
+                ]
+            },
+            {
+                "day": "sunday",
+                "departuresGo": [
+                    "07:41",
+                    "08:10",
+                    "08:41",
+                    "09:11",
+                    "09:41",
+                    "10:11",
+                    "10:41",
+                    "11:11",
+                    "11:41",
+                    "12:11",
+                    "12:41",
+                    "13:11",
+                    "13:41",
+                    "14:11",
+                    "14:41",
+                    "15:11",
+                    "15:41",
+                    "16:11",
+                    "16:41",
+                    "17:11",
+                    "17:41",
+                    "18:11",
+                    "18:41",
+                    "19:11",
+                    "19:41",
+                    "20:11",
+                    "20:41",
+                    "21:11"
+                ],
+                "departuresBack": [
+                    "08:52",
+                    "09:22",
+                    "09:52",
+                    "10:22",
+                    "10:52",
+                    "11:22",
+                    "11:52",
+                    "12:22",
+                    "12:52",
+                    "13:22",
+                    "13:52",
+                    "14:22",
+                    "14:52",
+                    "15:22",
+                    "15:52",
+                    "16:22",
+                    "16:52",
+                    "17:22",
+                    "17:52",
+                    "18:22",
+                    "18:52",
+                    "19:22",
+                    "19:52",
+                    "20:22",
+                    "20:52",
+                    "21:22",
+                    "21:52",
+                    "22:22"
+                ]
+            }
+        ]
+    }
+    ]
+}
