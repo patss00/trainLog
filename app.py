@@ -121,17 +121,25 @@ class NoteUpdate(BaseModel):
 
 # --- Routes ---
 
+from fastapi import FastAPI, Depends, Body
+from sqlalchemy.orm import Session
+
+app = FastAPI()
+
 @app.put("/note")
-def update_note(item: NoteUpdate, db: Session = Depends(get_db)):
-    note = db.query(Notes).first()  # gets the single row
+def update_note(note_content: str = Body(...), db: Session = Depends(get_db)):
+    note = db.query(Notes).first()
+
     if note is None:
-        note = Notes(content=item.content)
+        note = Notes(content=note_content)
         db.add(note)
     else:
-        note.content = item.content
+        note.content = note_content
+
     db.commit()
     db.refresh(note)
     return {"content": note.content}
+
 
 @app.post("/texts")
 def create_text(item: TextCreate, db: Session = Depends(get_db)):
