@@ -91,6 +91,11 @@ class Log(Base):
     count = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.now)
 
+class Notes(Base):
+    __tablename__ = "notes"
+
+    content = Column(String, nullable=False)
+
 Base.metadata.create_all(bind=engine)
 
 # Dependency
@@ -110,7 +115,25 @@ class LogCreate(BaseModel):
     id: Optional[str] = None
     count: Optional[int] = None
 
+class NoteUpdate(BaseModel):
+    content: str
+
 # --- Routes ---
+
+@app.put("/note")
+def update_note(item: NoteUpdate, db: Session = Depends(get_db)):
+    note = db.query(Notes).first()
+    
+    if note is None:
+        note = Notes(content=item.content)
+        db.add(note)
+    else:
+        note.content = item.content
+
+    db.commit()
+    db.refresh(note)
+    return {"content": note.content}
+
 @app.post("/texts")
 def create_text(item: TextCreate, db: Session = Depends(get_db)):
     db_text = Text(content=item.content, person=item.person)
@@ -129,7 +152,7 @@ def create_text(item: LogCreate, db: Session = Depends(get_db)):
 
 @app.get("/logs")
 def get_logs(db: Session = Depends(get_db)):
-    logs = db.query(Log).all()  # <- FIXED: use Log model
+    logs = db.query(Log).all()  
     return [
         {
             "id": l.id,
@@ -138,6 +161,11 @@ def get_logs(db: Session = Depends(get_db)):
         }
         for l in logs
     ]
+
+@app.get("/note")
+def get_note(db: Session = Depends(get_db)):
+    note = db.query(Notes).first()  
+    return note
 
 @app.get("/texts")
 def get_texts(db: Session = Depends(get_db)):
