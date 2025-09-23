@@ -1,6 +1,6 @@
 import mimetypes
 import os
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Request
 import json
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
@@ -10,12 +10,23 @@ from datetime import datetime
 from typing import Optional
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi import FastAPI, Depends, Body, Request
-from sqlalchemy.orm import Session
+from contextlib import asynccontextmanager
 
-app = FastAPI()
+# --- FastAPI app with lifespan ---
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Ensure single note row exists at startup
+    db = SessionLocal()
+    if db.query(Notes).first() is None:
+        db.add(Notes(content=""))  # create default empty note
+        db.commit()
+    db.close()
+    yield
+    # Shutdown code can go here if needed
 
-# Load stations.json once at startup
+app = FastAPI(lifespan=lifespan)
+
+# --- Load static JSON data ---
 with open("stations.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
@@ -54,33 +65,31 @@ def get_station(station_name: str):
                 return station
     return {"error": "Station not found"}
 
-# Mount a "static" folder to serve images
+# --- Static files ---
 mimetypes.add_type("image/jpg", ".jpg")
-
 static_dir = os.path.join(os.getcwd(), "static")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 @app.get("/pic")
 def get_pic():
-    # Put your image in the "static" folder
     file_path = os.path.join(static_dir, "pic.jpg")
     if not os.path.exists(file_path):
         return {"error": f"File not found: {file_path}"}
-    # Return the image file directly
     return FileResponse(file_path, media_type="image/jpg")
 
-
-# --- DB Setup ---
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://trainlog_db_user:i6e4y2wOTyH8NpXNwSIXjH8l20Q62Yx3@dpg-d33b383uibrs73afdapg-a.frankfurt-postgres.render.com:5432/trainlog_db")
+# --- Database setup ---
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://trainlog_db_user:i6e4y2wOTyH8NpXNwSIXjH8l20Q62Yx3@dpg-d33b383uibrs73afdapg-a.frankfurt-postgres.render.com:5432/trainlog_db"
+)
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# --- Model ---
+# --- Models ---
 class Text(Base):
     __tablename__ = "texts"
-
     id = Column(Integer, primary_key=True, index=True)
     content = Column(String, nullable=False)
     person = Column(String, nullable=False)
@@ -88,20 +97,18 @@ class Text(Base):
 
 class Log(Base):
     __tablename__ = "logs"
-
     id = Column(String, primary_key=True)
     count = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.now)
 
 class Notes(Base):
     __tablename__ = "notes"
-
     id = Column(Integer, primary_key=True, autoincrement=True)
     content = Column(String, nullable=False)
 
 Base.metadata.create_all(bind=engine)
 
-# Dependency
+# --- Dependencies ---
 def get_db():
     db = SessionLocal()
     try:
@@ -122,37 +129,21 @@ class NoteUpdate(BaseModel):
     content: str
 
 # --- Routes ---
-
-@app.put("/note")
-async def update_note(request: Request, db: Session = Depends(get_db)):
-    # Read the raw body as a string
-    note_content = await request.body()
-    note_content = note_content.decode("utf-8")  # convert bytes to str
-
-    # Fetch the single row
-    note = db.query(Notes).first()
-
-    if note is None:
-        note = Notes(content=note_content)
-        db.add(note)
-    else:
-        note.content = note_content
-
-    db.commit()
-    db.refresh(note)
-    return note.content
-
-
 @app.post("/texts")
 def create_text(item: TextCreate, db: Session = Depends(get_db)):
     db_text = Text(content=item.content, person=item.person)
     db.add(db_text)
     db.commit()
     db.refresh(db_text)
-    return {"id": db_text.id, "content": db_text.content, "person": db_text.person, "created_at": db_text.created_at}
+    return {
+        "id": db_text.id,
+        "content": db_text.content,
+        "person": db_text.person,
+        "created_at": db_text.created_at
+    }
 
 @app.post("/logs")
-def create_text(item: LogCreate, db: Session = Depends(get_db)):
+def create_log(item: LogCreate, db: Session = Depends(get_db)):
     db_log = Log(id=item.id, count=item.count)
     db.add(db_log)
     db.commit()
@@ -161,20 +152,8 @@ def create_text(item: LogCreate, db: Session = Depends(get_db)):
 
 @app.get("/logs")
 def get_logs(db: Session = Depends(get_db)):
-    logs = db.query(Log).all()  
-    return [
-        {
-            "id": l.id,
-            "count": l.count,
-            "date": l.date,
-        }
-        for l in logs
-    ]
-
-@app.get("/note")
-def get_note(db: Session = Depends(get_db)):
-    note = db.query(Notes).first()
-    return note.content if note else ""
+    logs = db.query(Log).all()
+    return [{"id": l.id, "count": l.count, "date": l.date} for l in logs]
 
 @app.get("/texts")
 def get_texts(db: Session = Depends(get_db)):
@@ -189,14 +168,6 @@ def get_texts(db: Session = Depends(get_db)):
         for t in texts
     ]
 
-#@app.post("/texts")
-#def create_text(item: TextCreate, db: Session = Depends(get_db)):
-#    db_text = Text(content=item.content, person=item.person)  # include person now
- #   db.add(db_text)
-  #  db.commit()
-   # db.refresh(db_text)
-    #return {"id": db_text.id, "content": db_text.content, "person": db_text.person, "created_at": db_text.created_at}
-
 @app.delete("/texts/{text_id}")
 def delete_text(text_id: int, db: Session = Depends(get_db)):
     db_text = db.query(Text).filter(Text.id == text_id).first()
@@ -205,3 +176,18 @@ def delete_text(text_id: int, db: Session = Depends(get_db)):
     db.delete(db_text)
     db.commit()
     return {"message": f"Text with id {text_id} has been deleted."}
+
+# --- Notes routes ---
+@app.put("/note")
+async def update_note(request: Request, db: Session = Depends(get_db)):
+    note_content = (await request.body()).decode("utf-8")
+    note = db.query(Notes).first()
+    note.content = note_content
+    db.commit()
+    db.refresh(note)
+    return {"content": note.content}
+
+@app.get("/note")
+def get_note(db: Session = Depends(get_db)):
+    note = db.query(Notes).first()
+    return {"content": note.content}
