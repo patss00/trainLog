@@ -127,7 +127,8 @@ from sqlalchemy.orm import Session
 app = FastAPI()
 
 @app.put("/note")
-def update_note(note_content: str = Body(...), db: Session = Depends(get_db)):
+def update_note(note_content: str = Body(..., media_type="text/plain"),
+    db: Session = Depends(get_db)):
     note = db.query(Notes).first()
 
     if note is None:
