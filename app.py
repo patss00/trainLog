@@ -87,9 +87,10 @@ class Text(Base):
 class Log(Base):
     __tablename__ = "logs"
 
-    id = Column(String, primary_key=True)
+    log_id = Column(Integer, primary_key=True, index=True, autoincrement=True) 
+    id = Column(Integer, nullable=False)
     count = Column(Integer, nullable=False)
-    date = Column(DateTime, default=datetime.now)
+    date = Column(DateTime, default=datetime.utcnow)
 
 Base.metadata.create_all(bind=engine)
 
@@ -118,7 +119,8 @@ def create_log(item: LogCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_log)
     return {
-        "id": db_log.id,
+        "log_id": db_log.log_id,   
+        "id": db_log.id,           
         "count": db_log.count,
         "date": db_log.date,
     }
