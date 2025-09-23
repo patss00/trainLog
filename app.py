@@ -128,6 +128,9 @@ class LogCreate(BaseModel):
 class NoteUpdate(BaseModel):
     content: str
 
+class NoteOut(BaseModel):
+    content: str
+
 # --- Routes ---
 @app.post("/texts")
 def create_text(item: TextCreate, db: Session = Depends(get_db)):
@@ -178,18 +181,25 @@ def delete_text(text_id: int, db: Session = Depends(get_db)):
     return {"message": f"Text with id {text_id} has been deleted."}
 
 # --- Notes routes ---
-from fastapi import Body
 
-@app.put("/note")
-def update_note(note_content: str = Body(..., media_type="text/plain"), db: Session = Depends(get_db)):
+# --- PUT route ---
+@app.put("/note", response_model=NoteOut)
+def update_note(item: NoteUpdate, db: Session = Depends(get_db)):
+    # Get the single row
     note = db.query(Notes).first()
-    note.content = note_content
+    
+    if note is None:
+        note = Notes(content=item.content)
+        db.add(note)
+    else:
+        note.content = item.content
+
     db.commit()
     db.refresh(note)
-    return note.content
+    return {"content": note.content}
 
-
-@app.get("/note")
+# --- GET route ---
+@app.get("/note", response_model=NoteOut)
 def get_note(db: Session = Depends(get_db)):
     note = db.query(Notes).first()
-    return note.content if note else ""
+    return {"content": note.content if note else ""}
