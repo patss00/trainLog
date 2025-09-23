@@ -82,7 +82,14 @@ class Text(Base):
     id = Column(Integer, primary_key=True, index=True)
     content = Column(String, nullable=False)
     person = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.now)
+
+class Log(Base):
+    __tablename__ = "logs"
+
+    id = Column(String, primary_key=True)
+    count = Column(int, nullable=False)
+    date = Column(DateTime, default=datetime.now)
 
 Base.metadata.create_all(bind=engine)
 
@@ -99,6 +106,10 @@ class TextCreate(BaseModel):
     content: Optional[str] = None
     person: Optional[str] = None
 
+class LogCreate(BaseModel):
+    id: Optional[str] = None
+    count: Optional[str] = None
+
 # --- Routes ---
 @app.post("/texts")
 def create_text(item: TextCreate, db: Session = Depends(get_db)):
@@ -107,6 +118,26 @@ def create_text(item: TextCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_text)
     return {"id": db_text.id, "content": db_text.content, "person": db_text.person, "created_at": db_text.created_at}
+
+@app.post("/logs")
+def create_log(item: LogCreate, db: Session = Depends(get_db)):
+    db_text = Log(id=item.id, count=item.count)
+    db.add(db_text)
+    db.commit()
+    db.refresh(db_text)
+    return {"id": db_text.id, "count": db_text.count, "date": db_text.date}
+
+@app.get("/logs")
+def get_logs(db: Session = Depends(get_db)):
+    logs = db.query(Text).all()
+    return [
+        {
+            "id": t.id,
+            "count": t.count,
+            "date": t.date,
+        }
+        for t in logs
+    ]
 
 @app.get("/texts")
 def get_texts(db: Session = Depends(get_db)):
@@ -121,13 +152,13 @@ def get_texts(db: Session = Depends(get_db)):
         for t in texts
     ]
 
-@app.post("/texts")
-def create_text(item: TextCreate, db: Session = Depends(get_db)):
-    db_text = Text(content=item.content, person=item.person)  # include person now
-    db.add(db_text)
-    db.commit()
-    db.refresh(db_text)
-    return {"id": db_text.id, "content": db_text.content, "person": db_text.person, "created_at": db_text.created_at}
+#@app.post("/texts")
+#def create_text(item: TextCreate, db: Session = Depends(get_db)):
+#    db_text = Text(content=item.content, person=item.person)  # include person now
+ #   db.add(db_text)
+  #  db.commit()
+   # db.refresh(db_text)
+    #return {"id": db_text.id, "content": db_text.content, "person": db_text.person, "created_at": db_text.created_at}
 
 @app.delete("/texts/{text_id}")
 def delete_text(text_id: int, db: Session = Depends(get_db)):
