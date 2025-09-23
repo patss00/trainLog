@@ -119,9 +119,9 @@ def create_text(item: TextCreate, db: Session = Depends(get_db)):
     db.refresh(db_text)
     return {"id": db_text.id, "content": db_text.content, "person": db_text.person, "created_at": db_text.created_at}
 
-@app.post("/logs")
-def create_log(db: Session = Depends(get_db)):
-    logs = db.query(Log).all()
+@app.get("/logs")
+def get_logs(db: Session = Depends(get_db)):
+    logs = db.query(Log).all()  # <- FIXED: use Log model
     return [
         {
             "id": l.id,
