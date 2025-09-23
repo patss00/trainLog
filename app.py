@@ -185,7 +185,7 @@ async def update_note(request: Request, db: Session = Depends(get_db)):
     note.content = note_content
     db.commit()
     db.refresh(note)
-    return {"content": note.content}
+    return note.content
 
 @app.get("/note")
 def get_note(db: Session = Depends(get_db)):
