@@ -94,6 +94,7 @@ class Log(Base):
 class Notes(Base):
     __tablename__ = "notes"
 
+    id = Column(Integer, primary_key=True, autoincrement=True)
     content = Column(String, nullable=False)
 
 Base.metadata.create_all(bind=engine)
@@ -122,14 +123,12 @@ class NoteUpdate(BaseModel):
 
 @app.put("/note")
 def update_note(item: NoteUpdate, db: Session = Depends(get_db)):
-    note = db.query(Notes).first()
-    
+    note = db.query(Notes).first()  # gets the single row
     if note is None:
         note = Notes(content=item.content)
         db.add(note)
     else:
         note.content = item.content
-
     db.commit()
     db.refresh(note)
     return {"content": note.content}
@@ -165,7 +164,7 @@ def get_logs(db: Session = Depends(get_db)):
 @app.get("/note")
 def get_note(db: Session = Depends(get_db)):
     note = db.query(Notes).first()  
-    return note
+    return {"content": note.content if note else None}
 
 @app.get("/texts")
 def get_texts(db: Session = Depends(get_db)):
