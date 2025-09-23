@@ -87,10 +87,9 @@ class Text(Base):
 class Log(Base):
     __tablename__ = "logs"
 
-    log_id = Column(Integer, primary_key=True, index=True, autoincrement=True) 
-    id = Column(Integer, nullable=False)
+    id = Column(String, primary_key=True)
     count = Column(Integer, nullable=False)
-    date = Column(DateTime, default=datetime.utcnow)
+    date = Column(DateTime, default=datetime.now)
 
 Base.metadata.create_all(bind=engine)
 
@@ -108,23 +107,10 @@ class TextCreate(BaseModel):
     person: Optional[str] = None
 
 class LogCreate(BaseModel):
-    id: int
-    count: int
+    id: Optional[str] = None
+    count: Optional[int] = None
 
 # --- Routes ---
-@app.post("/logs")
-def create_log(item: LogCreate, db: Session = Depends(get_db)):
-    db_log = Log(id=item.id, count=item.count, date=datetime.utcnow())
-    db.add(db_log)
-    db.commit()
-    db.refresh(db_log)
-    return {
-        "log_id": db_log.log_id,   
-        "id": db_log.id,           
-        "count": db_log.count,
-        "date": db_log.date,
-    }
-
 @app.post("/texts")
 def create_text(item: TextCreate, db: Session = Depends(get_db)):
     db_text = Text(content=item.content, person=item.person)
@@ -132,6 +118,14 @@ def create_text(item: TextCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_text)
     return {"id": db_text.id, "content": db_text.content, "person": db_text.person, "created_at": db_text.created_at}
+
+@app.post("/logs")
+def create_text(item: LogCreate, db: Session = Depends(get_db)):
+    db_log = Log(id=item.id, count=item.count)
+    db.add(db_log)
+    db.commit()
+    db.refresh(db_log)
+    return {"id": db_log.id, "count": db_log.count, "date": db_log.date}
 
 @app.get("/logs")
 def get_logs(db: Session = Depends(get_db)):
