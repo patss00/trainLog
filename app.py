@@ -107,10 +107,22 @@ class TextCreate(BaseModel):
     person: Optional[str] = None
 
 class LogCreate(BaseModel):
-    id: Optional[str] = None
-    count: Optional[int] = None
+    id: int
+    count: int
 
 # --- Routes ---
+@app.post("/logs")
+def create_log(item: LogCreate, db: Session = Depends(get_db)):
+    db_log = Log(id=item.id, count=item.count, date=datetime.utcnow())
+    db.add(db_log)
+    db.commit()
+    db.refresh(db_log)
+    return {
+        "id": db_log.id,
+        "count": db_log.count,
+        "date": db_log.date,
+    }
+
 @app.post("/texts")
 def create_text(item: TextCreate, db: Session = Depends(get_db)):
     db_text = Text(content=item.content, person=item.person)
@@ -129,18 +141,6 @@ def get_logs(db: Session = Depends(get_db)):
             "date": l.date,
         }
         for l in logs
-    ]
-
-@app.get("/logs")
-def get_logs(db: Session = Depends(get_db)):
-    logs = db.query(Text).all()
-    return [
-        {
-            "id": t.id,
-            "count": t.count,
-            "date": t.date,
-        }
-        for t in logs
     ]
 
 @app.get("/texts")
