@@ -185,21 +185,20 @@ def delete_text(text_id: int, db: Session = Depends(get_db)):
 # --- PUT route ---
 @app.put("/note", response_model=NoteOut)
 def update_note(item: NoteUpdate, db: Session = Depends(get_db)):
-    # Get the single row
     note = db.query(Notes).first()
-    
+
     if note is None:
         note = Notes(content=item.content)
         db.add(note)
     else:
-        note.content = item.content
-
+        note.content = item.content if item.content is not None else ""
+    
     db.commit()
     db.refresh(note)
-    return {"content": note.content}
+    return {"content": note.content or ""}  # ensure empty string if None
 
 # --- GET route ---
 @app.get("/note", response_model=NoteOut)
 def get_note(db: Session = Depends(get_db)):
     note = db.query(Notes).first()
-    return {"content": note.content if note else ""}
+    return {"content": note.content or ""}  # always return empty string if None
