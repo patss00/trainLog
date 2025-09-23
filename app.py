@@ -10,6 +10,8 @@ from datetime import datetime
 from typing import Optional
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, Depends, Body
+from sqlalchemy.orm import Session
 
 app = FastAPI()
 
@@ -121,14 +123,13 @@ class NoteUpdate(BaseModel):
 
 # --- Routes ---
 
-from fastapi import FastAPI, Depends, Body
-from sqlalchemy.orm import Session
-
-app = FastAPI()
-
 @app.put("/note")
-def update_note(note_content: str = Body(..., media_type="text/plain"),
-    db: Session = Depends(get_db)):
+async def update_note(request: Request, db: Session = Depends(get_db)):
+    # Read the raw body as a string
+    note_content = await request.body()
+    note_content = note_content.decode("utf-8")  # convert bytes to str
+
+    # Fetch the single row
     note = db.query(Notes).first()
 
     if note is None:
@@ -139,7 +140,7 @@ def update_note(note_content: str = Body(..., media_type="text/plain"),
 
     db.commit()
     db.refresh(note)
-    return {"content": note.content}
+    return note.content
 
 
 @app.post("/texts")
@@ -172,8 +173,8 @@ def get_logs(db: Session = Depends(get_db)):
 
 @app.get("/note")
 def get_note(db: Session = Depends(get_db)):
-    note = db.query(Notes).first()  
-    return {"content": note.content if note else None}
+    note = db.query(Notes).first()
+    return note.content if note else ""
 
 @app.get("/texts")
 def get_texts(db: Session = Depends(get_db)):
