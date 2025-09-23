@@ -178,14 +178,16 @@ def delete_text(text_id: int, db: Session = Depends(get_db)):
     return {"message": f"Text with id {text_id} has been deleted."}
 
 # --- Notes routes ---
+from fastapi import Body
+
 @app.put("/note")
-async def update_note(request: Request, db: Session = Depends(get_db)):
-    note_content = (await request.body()).decode("utf-8")
+def update_note(note_content: str = Body(..., media_type="text/plain"), db: Session = Depends(get_db)):
     note = db.query(Notes).first()
     note.content = note_content
     db.commit()
     db.refresh(note)
     return note.content
+
 
 @app.get("/note")
 def get_note(db: Session = Depends(get_db)):
