@@ -190,4 +190,4 @@ async def update_note(request: Request, db: Session = Depends(get_db)):
 @app.get("/note")
 def get_note(db: Session = Depends(get_db)):
     note = db.query(Notes).first()
-    return {"content": note.content}
+    return note.content if note else ""
