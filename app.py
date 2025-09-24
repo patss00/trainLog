@@ -202,3 +202,21 @@ def update_note(item: NoteUpdate, db: Session = Depends(get_db)):
 def get_note(db: Session = Depends(get_db)):
     note = db.query(Notes).first()
     return {"content": note.content or ""}  # always return empty string if None
+
+@app.get("/debug/notes")
+def debug_notes(db: Session = Depends(get_db)):
+    notes = db.query(Notes).all()
+    return [{"id": n.id, "content": n.content} for n in notes]
+
+
+@app.post("/debug/reset_note")
+def reset_note(db: Session = Depends(get_db)):
+    note = db.query(Notes).first()
+    if note:
+        note.content = ""  # reset to empty string
+    else:
+        note = Notes(content="")
+        db.add(note)
+    db.commit()
+    db.refresh(note)
+    return {"id": note.id, "content": note.content}
