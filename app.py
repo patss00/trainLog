@@ -183,20 +183,28 @@ def delete_text(text_id: int, db: Session = Depends(get_db)):
 # --- Notes routes ---
 
 # --- PUT route ---
+
 @app.put("/note", response_model=NoteOut)
 def update_note(
-    content: str = Body(..., embed=True),  # expects {"content": "..."} 
+    body: dict = Body(...),  # accept whatever FlutterFlow sends
     db: Session = Depends(get_db)
 ):
+    # Try to extract "content" from the incoming JSON
+    content = body.get("content", "")
+
     note = db.query(Notes).first()
     if not note:
+        # If no row exists, insert one
         note = Notes(content=content)
         db.add(note)
     else:
+        # Always update the first row
         note.content = content
     db.commit()
     db.refresh(note)
+
     return {"content": note.content}
+
 
 # --- GET route ---
 @app.get("/note", response_model=NoteOut)
