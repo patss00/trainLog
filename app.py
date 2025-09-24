@@ -1,6 +1,6 @@
 import mimetypes
 import os
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import Body, Depends, FastAPI, HTTPException, Request
 import json
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
@@ -184,18 +184,19 @@ def delete_text(text_id: int, db: Session = Depends(get_db)):
 
 # --- PUT route ---
 @app.put("/note", response_model=NoteOut)
-def update_note(item: NoteUpdate, db: Session = Depends(get_db)):
+def update_note(
+    content: str = Body(..., embed=True),  # expects {"content": "..."} 
+    db: Session = Depends(get_db)
+):
     note = db.query(Notes).first()
-
-    if note is None:
-        note = Notes(content=item.content)
+    if not note:
+        note = Notes(content=content)
         db.add(note)
     else:
-        note.content = item.content if item.content is not None else ""
-    
+        note.content = content
     db.commit()
     db.refresh(note)
-    return {"content": note.content or ""}  # ensure empty string if None
+    return {"content": note.content}
 
 # --- GET route ---
 @app.get("/note", response_model=NoteOut)
