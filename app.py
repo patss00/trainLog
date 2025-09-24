@@ -209,7 +209,7 @@ def debug_notes(db: Session = Depends(get_db)):
     return [{"id": n.id, "content": n.content} for n in notes]
 
 
-@app.post("/debug/reset_note")
+@app.get("/debug/reset_note")
 def reset_note(db: Session = Depends(get_db)):
     note = db.query(Notes).first()
     if note:
