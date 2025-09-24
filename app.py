@@ -210,7 +210,13 @@ def update_note(
 @app.get("/note", response_model=NoteOut)
 def get_note(db: Session = Depends(get_db)):
     note = db.query(Notes).first()
-    return {"content": note.content or ""}  # always return empty string if None
+    if not note:
+        # Guarantee a row always exists
+        note = Notes(content="")
+        db.add(note)
+        db.commit()
+        db.refresh(note)
+    return {"content": note.content}
 
 @app.get("/debug/notes")
 def debug_notes(db: Session = Depends(get_db)):
