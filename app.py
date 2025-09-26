@@ -98,7 +98,7 @@ class Text(Base):
 class Log(Base):
     __tablename__ = "logs"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    type = Column(String, primary_key=True)
+    log_type = Column(String, primary_key=True)
     count = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.now)
 
