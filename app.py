@@ -97,7 +97,8 @@ class Text(Base):
 
 class Log(Base):
     __tablename__ = "logs"
-    id = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    type = Column(String, primary_key=True)
     count = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.now)
 
@@ -122,7 +123,7 @@ class TextCreate(BaseModel):
     person: Optional[str] = None
 
 class LogCreate(BaseModel):
-    id: Optional[str] = None
+    type: Optional[str] = None
     count: Optional[int] = None
 
 class NoteUpdate(BaseModel):
@@ -147,16 +148,16 @@ def create_text(item: TextCreate, db: Session = Depends(get_db)):
 
 @app.post("/logs")
 def create_log(item: LogCreate, db: Session = Depends(get_db)):
-    db_log = Log(id=item.id, count=item.count)
+    db_log = Log(type=item.type, count=item.count)
     db.add(db_log)
     db.commit()
     db.refresh(db_log)
-    return {"id": db_log.id, "count": db_log.count, "date": db_log.date}
+    return {"id": db_log.id, "type": db_log.type, "count": db_log.count, "date": db_log.date}
 
 @app.get("/logs")
 def get_logs(db: Session = Depends(get_db)):
     logs = db.query(Log).all()
-    return [{"id": l.id, "count": l.count, "date": l.date} for l in logs]
+    return [{"id": l.id, "type": l.type, "count": l.count, "date": l.date} for l in logs]
 
 @app.get("/texts")
 def get_texts(db: Session = Depends(get_db)):
