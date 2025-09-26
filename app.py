@@ -123,7 +123,7 @@ class TextCreate(BaseModel):
     person: Optional[str] = None
 
 class LogCreate(BaseModel):
-    type: Optional[str] = None
+    log_type: Optional[str] = None
     count: Optional[int] = None
 
 class NoteUpdate(BaseModel):
