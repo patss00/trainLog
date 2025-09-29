@@ -262,7 +262,7 @@ def create_task(item: TasksCreate, db: Session = Depends(get_db)):
 @app.get("/tasks")
 def get_tasks(db: Session = Depends(get_db)):
     tasks = db.query(Tasks).all()
-    return [{"id_task": l.id_task, "description_task": l.description_task, "isDone": l.isDone, "date_task": l.date_task} for l in tasks]
+    return [{"id_task": l.id_task, "description_task": l.description_task, "isDone": l.isDone,  "suggest": l.suggest, "date_task": l.date_task} for l in tasks]
 
 @app.put("/tasks", response_model=TaskOut)
 def update_task(
