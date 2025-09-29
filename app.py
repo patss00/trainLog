@@ -107,8 +107,6 @@ class Notes(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     content = Column(String, nullable=False)
 
-Base.metadata.create_all(bind=engine)
-
 # --- Dependencies ---
 def get_db():
     db = SessionLocal()
@@ -288,3 +286,7 @@ def update_task(
     db.refresh(task)
 
     return {"isDone": task.isDone}
+
+
+
+Base.metadata.create_all(bind=engine)
