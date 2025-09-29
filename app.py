@@ -126,9 +126,6 @@ class LogCreate(BaseModel):
     log_type: Optional[str] = None
     count: Optional[int] = None
 
-class NoteUpdate(BaseModel):
-    content: str
-
 class NoteOut(BaseModel):
     content: str
 
@@ -243,12 +240,15 @@ class Tasks(Base):
     __tablename__ = "tasks"
     id_task = Column(Integer, primary_key=True, autoincrement=True)
     description_task = Column(String, primary_key=True)
-    status_task = Column(bool, nullable=False)
+    isDone = Column(bool, nullable=False)
     date_task = Column(String, nullable=False)
 
 class TasksCreate(BaseModel):
     description_task: Optional[str] = None
     date_task: Optional[str] = None
+
+class TaskOut(BaseModel):
+    isDone: bool
 
 @app.post("/tasks")
 def create_task(item: TasksCreate, db: Session = Depends(get_db)):
@@ -256,9 +256,31 @@ def create_task(item: TasksCreate, db: Session = Depends(get_db)):
     db.add(db_task)
     db.commit()
     db.refresh(db_task)
-    return {"id_task": db_task.id_task, "description_task": db_task.description_task, "status_task": db_task.status_task, "date_task": db_task.date_task}
+    return {"id_task": db_task.id_task, "description_task": db_task.description_task, "isDone": db_task.isDone, "date_task": db_task.date_task}
 
 @app.get("/tasks")
 def get_tasks(db: Session = Depends(get_db)):
     tasks = db.query(Tasks).all()
-    return [{"id_task": l.id_task, "description_task": l.description_task, "status_task": l.status_task, "date_task": l.date_task} for l in tasks]
+    return [{"id_task": l.id_task, "description_task": l.description_task, "isDone": l.isDone, "date_task": l.date_task} for l in tasks]
+
+@app.put("/tasks", response_model=TaskOut)
+def update_task(
+    body: dict = Body(...),  # accept whatever FlutterFlow sends
+    db: Session = Depends(get_db)
+):
+    # Try to extract "content" from the incoming JSON
+    isDone = body.get("isDone", "")
+    id_task = body.get("id_task", "")
+
+    task = db.query(Tasks).filter(Tasks.id == id_task).first()
+    if not task:
+        # If no row exists, insert one
+        task = Tasks(isDone=isDone)
+        db.add(task)
+    else:
+        # Always update the first row
+        task.isDone = isDone
+    db.commit()
+    db.refresh(task)
+
+    return {"isDone": task.isDone}
