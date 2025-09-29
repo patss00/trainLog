@@ -236,3 +236,29 @@ def reset_note(db: Session = Depends(get_db)):
     db.commit()
     db.refresh(note)
     return {"id": note.id, "content": note.content}
+
+# Tasks
+
+class Tasks(Base):
+    __tablename__ = "tasks"
+    id_task = Column(Integer, primary_key=True, autoincrement=True)
+    description_task = Column(String, primary_key=True)
+    status_task = Column(bool, nullable=False)
+    date_task = Column(DateTime, nullable=False)
+
+class TasksCreate(BaseModel):
+    description_task: Optional[str] = None
+    date_task: Optional[DateTime] = None
+
+@app.post("/tasks")
+def create_task(item: TasksCreate, db: Session = Depends(get_db)):
+    db_task = Tasks(description_task=item.description_task, date_task=item.date_task)
+    db.add(db_task)
+    db.commit()
+    db.refresh(db_task)
+    return {"id_task": db_task.id_task, "description_task": db_task.description_task, "status_task": db_task.status_task, "date_task": db_task.date_task}
+
+@app.get("/tasks")
+def get_tasks(db: Session = Depends(get_db)):
+    tasks = db.query(Tasks).all()
+    return [{"id_task": l.id_task, "description_task": l.description_task, "status_task": l.status_task, "date_task": l.date_task} for l in tasks]
