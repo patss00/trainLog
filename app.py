@@ -246,12 +246,12 @@ class Tasks(Base):
 
 class TasksCreate(BaseModel):
     description_task: Optional[str] = None
-    isDone = Optional[Boolean] = None
-    suggest = Optional[Boolean] = None
+    isDone = Optional[bool] = None
+    suggest = Optional[bool] = None
     date_task: Optional[str] = None
 
 class TaskOut(BaseModel):
-    isDone: Boolean
+    isDone: bool
 
 @app.post("/tasks")
 def create_task(item: TasksCreate, db: Session = Depends(get_db)):
@@ -275,7 +275,8 @@ def update_task(
     isDone = body.get("isDone", "")
     id_task = body.get("id_task", "")
 
-    task = db.query(Tasks).filter(Tasks.id == id_task).first()
+    task = db.query(Tasks).filter(Tasks.id_task == id_task).first()
+
     if not task:
         # If no row exists, insert one
         task = Tasks(isDone=isDone)
