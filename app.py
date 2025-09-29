@@ -246,8 +246,8 @@ class Tasks(Base):
 
 class TasksCreate(BaseModel):
     description_task: Optional[str] = None
-    isDone = Optional[Boolean] = False
-    suggest = Optional[Boolean] = False
+    isDone = Optional[Boolean] = None
+    suggest = Optional[Boolean] = None
     date_task: Optional[str] = None
 
 class TaskOut(BaseModel):
