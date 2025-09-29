@@ -239,15 +239,15 @@ def reset_note(db: Session = Depends(get_db)):
 class Tasks(Base):
     __tablename__ = "tasks"
     id_task = Column(Integer, primary_key=True, autoincrement=True)
-    description_task = Column(String, primary_key=True)
+    description_task = Column(String, nullable=False)
     isDone = Column(Boolean, nullable=False, default=False)
     suggest = Column(Boolean, nullable=False, default=False)
     date_task = Column(String, nullable=False)
 
 class TasksCreate(BaseModel):
     description_task: Optional[str] = None
-    isDone = Optional[bool] = None
-    suggest = Optional[bool] = None
+    isDone: Optional[bool] = None
+    suggest: Optional[bool] = None
     date_task: Optional[str] = None
 
 class TaskOut(BaseModel):
