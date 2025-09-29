@@ -241,6 +241,7 @@ class Tasks(Base):
     id_task = Column(Integer, primary_key=True, autoincrement=True)
     description_task = Column(String, primary_key=True)
     isDone = Column(Boolean, nullable=False)
+    suggest = Column(Boolean, nullable=False)
     date_task = Column(String, nullable=False)
 
 class TasksCreate(BaseModel):
