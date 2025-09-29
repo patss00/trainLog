@@ -3,7 +3,7 @@ import os
 from fastapi import Body, Depends, FastAPI, HTTPException, Request
 import json
 from pydantic import BaseModel
-from sqlalchemy import create_engine, Column, Integer, String, DateTime
+from sqlalchemy import Boolean, create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from datetime import datetime
@@ -240,7 +240,7 @@ class Tasks(Base):
     __tablename__ = "tasks"
     id_task = Column(Integer, primary_key=True, autoincrement=True)
     description_task = Column(String, primary_key=True)
-    isDone = Column(bool, nullable=False)
+    isDone = Column(Boolean, nullable=False)
     date_task = Column(String, nullable=False)
 
 class TasksCreate(BaseModel):
@@ -248,7 +248,7 @@ class TasksCreate(BaseModel):
     date_task: Optional[str] = None
 
 class TaskOut(BaseModel):
-    isDone: bool
+    isDone: Boolean
 
 @app.post("/tasks")
 def create_task(item: TasksCreate, db: Session = Depends(get_db)):
