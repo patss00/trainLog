@@ -244,11 +244,11 @@ class Tasks(Base):
     id_task = Column(Integer, primary_key=True, autoincrement=True)
     description_task = Column(String, primary_key=True)
     status_task = Column(bool, nullable=False)
-    date_task = Column(DateTime, nullable=False)
+    date_task = Column(String, nullable=False)
 
 class TasksCreate(BaseModel):
     description_task: Optional[str] = None
-    date_task: Optional[DateTime] = None
+    date_task: Optional[str] = None
 
 @app.post("/tasks")
 def create_task(item: TasksCreate, db: Session = Depends(get_db)):
