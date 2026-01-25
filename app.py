@@ -97,10 +97,12 @@ class Text(Base):
 
 class Log(Base):
     __tablename__ = "logs"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    log_type = Column(String, primary_key=True)
+
+    id = Column(Integer, primary_key=True, index=True)
+    type = Column(String, nullable=False)
     count = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.now)
+
 
 class Notes(Base):
     __tablename__ = "notes"
@@ -121,8 +123,9 @@ class TextCreate(BaseModel):
     person: Optional[str] = None
 
 class LogCreate(BaseModel):
-    log_type: Optional[str] = None
+    type: Optional[str] = None
     count: Optional[int] = None
+
 
 class NoteOut(BaseModel):
     content: str
@@ -143,16 +146,25 @@ def create_text(item: TextCreate, db: Session = Depends(get_db)):
 
 @app.post("/logs")
 def create_log(item: LogCreate, db: Session = Depends(get_db)):
-    db_log = Log(log_type=item.log_type, count=item.count)
+    db_log = Log(type=item.type, count=item.count)
     db.add(db_log)
     db.commit()
     db.refresh(db_log)
-    return {"id": db_log.id, "log_type": db_log.log_type, "count": db_log.count, "date": db_log.date}
+    return {
+        "id": db_log.id,
+        "type": db_log.type,
+        "count": db_log.count,
+        "date": db_log.date
+    }
 
 @app.get("/logs")
 def get_logs(db: Session = Depends(get_db)):
     logs = db.query(Log).all()
-    return [{"id": l.id, "log_type": l.log_type, "count": l.count, "date": l.date} for l in logs]
+    return [
+        {"id": l.id, "type": l.type, "count": l.count, "date": l.date}
+        for l in logs
+    ]
+
 
 @app.get("/texts")
 def get_texts(db: Session = Depends(get_db)):
