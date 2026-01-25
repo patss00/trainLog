@@ -288,5 +288,3 @@ def update_task(
     return {"id_task": task.id_task, "description_task": task.description_task, "isDone": task.isDone,  "suggest": task.suggest, "date_task": task.date_task}
 
 
-
-Base.metadata.create_all(bind=engine)
