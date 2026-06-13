@@ -163,7 +163,7 @@ class Sticker(Base):
     name = Column(String, nullable=False)
     image_file = Column(String, nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)
-    orientation = Column(String, nullable=False, default="portrait")
+    is_portrait = Column(Boolean, nullable=False, default=True)
     cat_has = Column(Boolean, nullable=False, default=False)
     pat_has = Column(Boolean, nullable=False, default=False)
 
@@ -258,7 +258,7 @@ def build_sticker_response(db: Session, sticker: Sticker):
         "name": sticker.name,
         "image_url": get_sticker_public_url(sticker.image_file),
         "image_file": sticker.image_file,
-        "orientation": sticker.orientation,
+        "isPortrait": sticker.is_portrait,
         "categoryId": sticker.category_id,
         "cat_has": sticker.cat_has,
         "pat_has": sticker.pat_has,
