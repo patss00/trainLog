@@ -258,8 +258,8 @@ def build_sticker_response(db: Session, sticker: Sticker):
         "name": sticker.name,
         "image_url": get_sticker_public_url(sticker.image_file),
         "image_file": sticker.image_file,
+        "orientation": sticker.orientation,
         "categoryId": sticker.category_id,
-        "category": category.description if category else None,
         "cat_has": sticker.cat_has,
         "pat_has": sticker.pat_has,
     }
