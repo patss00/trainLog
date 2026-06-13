@@ -661,10 +661,18 @@ def get_sticker_by_id(sticker_id: int, db: Session = Depends(get_db)):
 
 @app.put("/stickers/{sticker_id}/status")
 def update_sticker_status(
-    sticker_id: int,
+    sticker_id: str,
     item: StickerStatusUpdate,
     db: Session = Depends(get_db),
 ):
+    try:
+        sticker_id_int = int(sticker_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="sticker_id must be a valid number",
+        )
+
     person = item.person.lower().strip()
 
     if person not in ["pat", "cat"]:
@@ -675,13 +683,13 @@ def update_sticker_status(
 
     image_files = list_sticker_files_from_supabase()
 
-    if sticker_id < 1 or sticker_id > len(image_files):
+    if sticker_id_int < 1 or sticker_id_int > len(image_files):
         raise HTTPException(status_code=404, detail="Sticker not found")
 
-    file = image_files[sticker_id - 1]
+    file = image_files[sticker_id_int - 1]
     file_name = file["name"]
 
-    sticker = ensure_sticker_exists(db, sticker_id, file_name)
+    sticker = ensure_sticker_exists(db, sticker_id_int, file_name)
 
     if person == "pat":
         sticker.pat_has = item.status
@@ -697,7 +705,6 @@ def update_sticker_status(
         "cat_has": sticker.cat_has,
         "pat_has": sticker.pat_has,
     }
-
 
 @app.get("/stickers/random-missing")
 def get_random_missing_sticker(person: str, db: Session = Depends(get_db)):
