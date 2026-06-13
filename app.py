@@ -195,6 +195,18 @@ def get_pic():
 
     return FileResponse(str(file_path), media_type="image/jpg")
 
+@app.get("/stickers")
+def get_stickers():
+    return [
+        {
+            "id": i,
+            "name": f"Cromo {i}",
+            "image_url": f"/stickers/{i}/image",
+            "cat_has": False,
+            "pat_has": False
+        }
+        for i in range(1, 11)
+    ]
 
 # --- Text routes ---
 
