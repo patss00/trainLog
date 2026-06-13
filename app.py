@@ -203,7 +203,7 @@ def get_stickers():
             "name": f"Cromo {i}",
             "image_url": f"/stickers/{i}/image",
             "cat_has": False,
-            "pat_has": False
+            "pat_has": True
         }
         for i in range(1, 11)
     ]
