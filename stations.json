@@ -14,6 +14,8 @@
         "clickme3": "or click me to leave a note",
         "clickme4": "or click me",
         "login": "are you cat?",
-        "toDate": "2026-06-21 13:00:00.000"
+        "toDate": "2026-06-21 13:00:00.000",
+        "openCard": true,
+        "openCardText": "You deserve a new sticker! Click me to get one <3"
     }
 }
