@@ -208,6 +208,14 @@ def get_stickers():
         for i in range(1, 11)
     ]
 
+@app.get("/stickers/{sticker_id}/image")
+def get_sticker_image(sticker_id: int):
+    file_path = static_dir / "stickers" / f"{sticker_id}.jpg"
+
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="Sticker image not found")
+
+    return FileResponse(str(file_path), media_type="image/jpg")
 # --- Text routes ---
 
 @app.post("/texts")
