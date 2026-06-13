@@ -643,6 +643,42 @@ def get_stickers(db: Session = Depends(get_db)):
 
     return stickers
 
+@app.get("/stickers/random-missing")
+def get_random_missing_sticker(person: str, db: Session = Depends(get_db)):
+    person = person.lower().strip()
+
+    if person not in ["pat", "cat"]:
+        raise HTTPException(
+            status_code=400,
+            detail="person must be either 'pat' or 'cat'",
+        )
+
+    image_files = list_sticker_files_from_supabase()
+
+    for index, file in enumerate(image_files, start=1):
+        file_name = file["name"]
+        ensure_sticker_exists(db, index, file_name)
+
+    if person == "pat":
+        missing_stickers = db.query(Sticker).filter(
+            Sticker.pat_has == False
+        ).all()
+
+    else:
+        missing_stickers = db.query(Sticker).filter(
+            Sticker.cat_has == False
+        ).all()
+
+    if not missing_stickers:
+        raise HTTPException(
+            status_code=404,
+            detail=f"{person} already has all stickers",
+        )
+
+    selected_sticker = random.choice(missing_stickers)
+
+    return build_sticker_response(db, selected_sticker)
+
 
 @app.get("/stickers/{sticker_id}")
 def get_sticker_by_id(sticker_id: int, db: Session = Depends(get_db)):
@@ -705,42 +741,6 @@ def update_sticker_status(
         "cat_has": sticker.cat_has,
         "pat_has": sticker.pat_has,
     }
-
-@app.get("/stickers/random-missing")
-def get_random_missing_sticker(person: str, db: Session = Depends(get_db)):
-    person = person.lower().strip()
-
-    if person not in ["pat", "cat"]:
-        raise HTTPException(
-            status_code=400,
-            detail="person must be either 'pat' or 'cat'",
-        )
-
-    image_files = list_sticker_files_from_supabase()
-
-    for index, file in enumerate(image_files, start=1):
-        file_name = file["name"]
-        ensure_sticker_exists(db, index, file_name)
-
-    if person == "pat":
-        missing_stickers = db.query(Sticker).filter(
-            Sticker.pat_has == False
-        ).all()
-
-    else:
-        missing_stickers = db.query(Sticker).filter(
-            Sticker.cat_has == False
-        ).all()
-
-    if not missing_stickers:
-        raise HTTPException(
-            status_code=404,
-            detail=f"{person} already has all stickers",
-        )
-
-    selected_sticker = random.choice(missing_stickers)
-
-    return build_sticker_response(db, selected_sticker)
 
 
 @app.get("/stickers/{sticker_id}/image")
