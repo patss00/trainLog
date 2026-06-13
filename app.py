@@ -163,6 +163,7 @@ class Sticker(Base):
     name = Column(String, nullable=False)
     image_file = Column(String, nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)
+    orientation = Column(String, nullable=False, default="portrait")
     cat_has = Column(Boolean, nullable=False, default=False)
     pat_has = Column(Boolean, nullable=False, default=False)
 
