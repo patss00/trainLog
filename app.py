@@ -161,6 +161,9 @@ class ScreenState(Base):
 class OpenCardUpdate(BaseModel):
     openCard: bool
 
+class UpdatedUpdate(BaseModel):
+    updated: bool
+
 
 def get_or_create_screen_state(db: Session):
     state = db.query(ScreenState).filter(ScreenState.id == 1).first()
@@ -415,6 +418,20 @@ def update_open_card(
         "openCard": state.open_card,
     }
 
+@app.put("/screen/updated")
+def update_screen_updated(
+    item: UpdatedUpdate,
+    db: Session = Depends(get_db),
+):
+    state = get_or_create_screen_state(db)
+    state.updated = item.updated
+
+    db.commit()
+    db.refresh(state)
+
+    return {
+        "updated": state.updated,
+    }
 
 # ============================================================
 # TEXT ROUTES
