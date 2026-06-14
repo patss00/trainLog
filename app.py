@@ -155,6 +155,7 @@ class ScreenState(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     open_card = Column(Boolean, nullable=False, default=True)
+    updated = Column(Boolean, nullable=False, default=False)
 
 
 class OpenCardUpdate(BaseModel):
@@ -165,13 +166,16 @@ def get_or_create_screen_state(db: Session):
     state = db.query(ScreenState).filter(ScreenState.id == 1).first()
 
     if not state:
-        state = ScreenState(id=1, open_card=True)
+        state = ScreenState(
+            id=1,
+            open_card=True,
+            updated=False,
+        )
         db.add(state)
         db.commit()
         db.refresh(state)
 
     return state
-
 
 # ============================================================
 # STICKERS FEATURE
@@ -391,6 +395,7 @@ def get_screen(db: Session = Depends(get_db)):
     state = get_or_create_screen_state(db)
 
     screen_data["openCard"] = state.open_card
+    screen_data["updated"] = state.updated
 
     return screen_data
 
