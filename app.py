@@ -149,6 +149,11 @@ class TaskOut(BaseModel):
 # ============================================================
 # STICKERS FEATURE
 # ============================================================
+class ScreenSettings(Base):
+    __tablename__ = "screen_settings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    open_card = Column(Boolean, nullable=False, default=True)
 
 class Category(Base):
     __tablename__ = "categories"
@@ -167,6 +172,9 @@ class Sticker(Base):
     is_portrait = Column(Boolean, nullable=False, default=True)
     cat_has = Column(Boolean, nullable=False, default=False)
     pat_has = Column(Boolean, nullable=False, default=False)
+
+class OpenCardUpdate(BaseModel):
+    openCard: bool
 
 
 class CategoryCreate(BaseModel):
@@ -265,6 +273,16 @@ def build_sticker_response(db: Session, sticker: Sticker):
         "pat_has": sticker.pat_has,
     }
 
+def get_or_create_screen_state(db: Session):
+    state = db.query(ScreenState).filter(ScreenState.id == 1).first()
+
+    if not state:
+        state = ScreenState(id=1, open_card=True)
+        db.add(state)
+        db.commit()
+        db.refresh(state)
+
+    return state
 
 # ============================================================
 # CREATE TABLES
@@ -341,8 +359,28 @@ def get_all_cutes():
 
 
 @app.get("/screen")
-def get_screen():
-    return data.get("screen", [])
+def get_screen(db: Session = Depends(get_db)):
+    screen_data = data.get("screen", {}).copy()
+    state = get_or_create_screen_state(db)
+
+    screen_data["openCard"] = state.open_card
+
+    return screen_data
+
+@app.put("/screen/open-card")
+def update_open_card(
+    item: OpenCardUpdate,
+    db: Session = Depends(get_db),
+):
+    state = get_or_create_screen_state(db)
+    state.open_card = item.openCard
+
+    db.commit()
+    db.refresh(state)
+
+    return {
+        "openCard": state.open_card
+    }
 
 
 @app.get("/pic")
