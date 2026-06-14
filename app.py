@@ -1,11 +1,11 @@
 import json
 import mimetypes
 import os
+import random
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
-import random
 
 import requests
 from dotenv import load_dotenv
@@ -147,13 +147,35 @@ class TaskOut(BaseModel):
 
 
 # ============================================================
-# STICKERS FEATURE
+# SCREEN STATE FEATURE
 # ============================================================
-class ScreenSettings(Base):
-    __tablename__ = "screen_settings"
+
+class ScreenState(Base):
+    __tablename__ = "screen_state"
 
     id = Column(Integer, primary_key=True, index=True)
     open_card = Column(Boolean, nullable=False, default=True)
+
+
+class OpenCardUpdate(BaseModel):
+    openCard: bool
+
+
+def get_or_create_screen_state(db: Session):
+    state = db.query(ScreenState).filter(ScreenState.id == 1).first()
+
+    if not state:
+        state = ScreenState(id=1, open_card=True)
+        db.add(state)
+        db.commit()
+        db.refresh(state)
+
+    return state
+
+
+# ============================================================
+# STICKERS FEATURE
+# ============================================================
 
 class Category(Base):
     __tablename__ = "categories"
@@ -172,9 +194,6 @@ class Sticker(Base):
     is_portrait = Column(Boolean, nullable=False, default=True)
     cat_has = Column(Boolean, nullable=False, default=False)
     pat_has = Column(Boolean, nullable=False, default=False)
-
-class OpenCardUpdate(BaseModel):
-    openCard: bool
 
 
 class CategoryCreate(BaseModel):
@@ -239,6 +258,7 @@ def ensure_sticker_exists(db: Session, sticker_id: int, file_name: str):
             name=f"Cromo {sticker_id}",
             image_file=file_name,
             category_id=None,
+            is_portrait=True,
             cat_has=False,
             pat_has=False,
         )
@@ -269,20 +289,11 @@ def build_sticker_response(db: Session, sticker: Sticker):
         "image_file": sticker.image_file,
         "isPortrait": sticker.is_portrait,
         "categoryId": sticker.category_id,
+        "category": category.description if category else None,
         "cat_has": sticker.cat_has,
         "pat_has": sticker.pat_has,
     }
 
-def get_or_create_screen_state(db: Session):
-    state = db.query(ScreenState).filter(ScreenState.id == 1).first()
-
-    if not state:
-        state = ScreenState(id=1, open_card=True)
-        db.add(state)
-        db.commit()
-        db.refresh(state)
-
-    return state
 
 # ============================================================
 # CREATE TABLES
@@ -302,6 +313,8 @@ async def lifespan(app: FastAPI):
         if db.query(Notes).first() is None:
             db.add(Notes(content=""))
             db.commit()
+
+        get_or_create_screen_state(db)
     finally:
         db.close()
 
@@ -323,7 +336,7 @@ if stations_path.exists():
 else:
     data = {
         "cutes": [],
-        "screen": [],
+        "screen": {},
     }
 
 mimetypes.add_type("image/jpg", ".jpg")
@@ -358,6 +371,20 @@ def get_all_cutes():
     return data.get("cutes", [])
 
 
+@app.get("/pic")
+def get_pic():
+    file_path = static_dir / "pic.jpg"
+
+    if not file_path.exists():
+        return {"error": f"File not found: {file_path}"}
+
+    return FileResponse(str(file_path), media_type="image/jpg")
+
+
+# ============================================================
+# SCREEN ROUTES
+# ============================================================
+
 @app.get("/screen")
 def get_screen(db: Session = Depends(get_db)):
     screen_data = data.get("screen", {}).copy()
@@ -366,6 +393,7 @@ def get_screen(db: Session = Depends(get_db)):
     screen_data["openCard"] = state.open_card
 
     return screen_data
+
 
 @app.put("/screen/open-card")
 def update_open_card(
@@ -379,18 +407,8 @@ def update_open_card(
     db.refresh(state)
 
     return {
-        "openCard": state.open_card
+        "openCard": state.open_card,
     }
-
-
-@app.get("/pic")
-def get_pic():
-    file_path = static_dir / "pic.jpg"
-
-    if not file_path.exists():
-        return {"error": f"File not found: {file_path}"}
-
-    return FileResponse(str(file_path), media_type="image/jpg")
 
 
 # ============================================================
@@ -681,6 +699,7 @@ def get_stickers(db: Session = Depends(get_db)):
 
     return stickers
 
+
 @app.get("/stickers/random-missing")
 def get_random_missing_sticker(person: str, db: Session = Depends(get_db)):
     person = person.lower().strip()
@@ -701,7 +720,6 @@ def get_random_missing_sticker(person: str, db: Session = Depends(get_db)):
         missing_stickers = db.query(Sticker).filter(
             Sticker.pat_has == False
         ).all()
-
     else:
         missing_stickers = db.query(Sticker).filter(
             Sticker.cat_has == False
