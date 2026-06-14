@@ -154,12 +154,18 @@ class ScreenState(Base):
     __tablename__ = "screen_state"
 
     id = Column(Integer, primary_key=True, index=True)
-    open_card = Column(Boolean, nullable=False, default=True)
+    cat_open_card = Column(Boolean, nullable=False, default=True)
+    pat_open_card = Column(Boolean, nullable=False, default=True)
     updated = Column(Boolean, nullable=False, default=False)
 
 
-class OpenCardUpdate(BaseModel):
-    openCard: bool
+class CatOpenCardUpdate(BaseModel):
+    catOpenCard: bool
+
+
+class PatOpenCardUpdate(BaseModel):
+    patOpenCard: bool
+
 
 class UpdatedUpdate(BaseModel):
     updated: bool
@@ -171,7 +177,8 @@ def get_or_create_screen_state(db: Session):
     if not state:
         state = ScreenState(
             id=1,
-            open_card=True,
+            cat_open_card=True,
+            pat_open_card=True,
             updated=False,
         )
         db.add(state)
@@ -397,26 +404,64 @@ def get_screen(db: Session = Depends(get_db)):
     screen_data = data.get("screen", {}).copy()
     state = get_or_create_screen_state(db)
 
-    screen_data["openCard"] = state.open_card
+    screen_data.pop("openCard", None)
+
+    screen_data["catOpenCard"] = state.cat_open_card
+    screen_data["patOpenCard"] = state.pat_open_card
     screen_data["updated"] = state.updated
 
     return screen_data
 
 
-@app.put("/screen/open-card")
-def update_open_card(
-    item: OpenCardUpdate,
+@app.get("/screen/cat-open-card")
+def get_cat_open_card(db: Session = Depends(get_db)):
+    state = get_or_create_screen_state(db)
+
+    return {
+        "catOpenCard": state.cat_open_card,
+    }
+
+
+@app.put("/screen/cat-open-card")
+def update_cat_open_card(
+    item: CatOpenCardUpdate,
     db: Session = Depends(get_db),
 ):
     state = get_or_create_screen_state(db)
-    state.open_card = item.openCard
+    state.cat_open_card = item.catOpenCard
 
     db.commit()
     db.refresh(state)
 
     return {
-        "openCard": state.open_card,
+        "catOpenCard": state.cat_open_card,
     }
+
+
+@app.get("/screen/pat-open-card")
+def get_pat_open_card(db: Session = Depends(get_db)):
+    state = get_or_create_screen_state(db)
+
+    return {
+        "patOpenCard": state.pat_open_card,
+    }
+
+
+@app.put("/screen/pat-open-card")
+def update_pat_open_card(
+    item: PatOpenCardUpdate,
+    db: Session = Depends(get_db),
+):
+    state = get_or_create_screen_state(db)
+    state.pat_open_card = item.patOpenCard
+
+    db.commit()
+    db.refresh(state)
+
+    return {
+        "patOpenCard": state.pat_open_card,
+    }
+
 
 @app.put("/screen/updated")
 def update_screen_updated(
