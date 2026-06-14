@@ -11,12 +11,13 @@
         "greeting2": "estamos quase de férias <3",
         "clickme1": "click me for something cute",
         "clickme2": "or click me for a kiss",
-        "clickme3": "or click me to leave a note",
-        "clickme4": "or click me",
+        "clickme3": "notes",
+        "clickme4": "card collection",
+        "clickme5": "dá um cromo à tua namorada <3",
         "login": "are you cat?",
         "toDate": "2026-06-21 13:00:00.000",
         "openCard": true,
         "openCardText": "You deserve a new sticker! Click me to get one <3",
-        "updates": "Hi babes!\n\nCoisas novas/diferentes:\n- Cor do texto e botão dos updates agora é branco\n- Loading quando se faz refresh\n- O loading agora aparece no centro do ecrã\n- Já temos as duas botões para abrir e dar cromos!\n\nAmo-te muito <3"
+        "updates": "Hi babes!\n\nCoisas novas/diferentes:\n- Cor do texto e botão dos updates agora é branco\n- Loading quando se faz refresh\n- O loading agora aparece no centro do ecrã\n- Já temos as duas botões para abrir e dar cromos!\n- O botão para abrires um cromo está mais bonito e formatado\n\nAmo-te muito <3"
     }
 }
