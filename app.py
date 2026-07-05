@@ -1073,42 +1073,20 @@ def put_event(item: EventCreate, db: Session = Depends(get_db)):
 # SCHEDULE IMAGE ROUTES
 # ============================================================
 
-@app.post(
-    "/schedule-images/process",
-    response_model=ProcessScheduleImagesResponse,
-)
-def process_schedule_images(
-    item: ScheduleImagesRequest,
+@app.post("/schedule-images/process")
+async def process_schedule_images(
+    files: list[UploadFile] = File(...),
 ):
-    if not item.files:
-        raise HTTPException(
-            status_code=400,
-            detail="At least one image is required",
-        )
-
     processed_files = []
 
-    for file in item.files:
-        if not file.name:
-            raise HTTPException(
-                status_code=400,
-                detail="File name is required",
-            )
+    for file in files:
+        contents = await file.read()
 
-        if not file.bytes:
-            raise HTTPException(
-                status_code=400,
-                detail=f"{file.name} is empty",
-            )
-
-        image_bytes = bytes(file.bytes)
-
-        processed_files.append(
-            {
-                "filename": file.name,
-                "size_bytes": len(image_bytes),
-            }
-        )
+        processed_files.append({
+            "filename": file.filename,
+            "content_type": file.content_type,
+            "size_bytes": len(contents),
+        })
 
     return {
         "count": len(processed_files),
