@@ -354,9 +354,21 @@ class EventCreate(BaseModel):
     start_time: time
     end_time: time
 
+# ============================================================
+# SCHEDULE IMAGE FEATURE
+# ============================================================
+
+class ScheduleImageFile(BaseModel):
+    name: str
+    bytes: list[int]
+
+
+class ScheduleImagesRequest(BaseModel):
+    files: list[ScheduleImageFile]
+
+
 class ProcessedScheduleFile(BaseModel):
     filename: str
-    content_type: str
     size_bytes: int
 
 
@@ -1065,10 +1077,10 @@ def put_event(item: EventCreate, db: Session = Depends(get_db)):
     "/schedule-images/process",
     response_model=ProcessScheduleImagesResponse,
 )
-async def process_schedule_images(
-    files: list[UploadFile] = File(...),
+def process_schedule_images(
+    item: ScheduleImagesRequest,
 ):
-    if not files:
+    if not item.files:
         raise HTTPException(
             status_code=400,
             detail="At least one image is required",
@@ -1076,26 +1088,25 @@ async def process_schedule_images(
 
     processed_files = []
 
-    for file in files:
-        if not file.content_type or not file.content_type.startswith("image/"):
+    for file in item.files:
+        if not file.name:
             raise HTTPException(
                 status_code=400,
-                detail=f"{file.filename} is not an image",
+                detail="File name is required",
             )
 
-        contents = await file.read()
-
-        if len(contents) == 0:
+        if not file.bytes:
             raise HTTPException(
                 status_code=400,
-                detail=f"{file.filename} is empty",
+                detail=f"{file.name} is empty",
             )
+
+        image_bytes = bytes(file.bytes)
 
         processed_files.append(
             {
-                "filename": file.filename,
-                "content_type": file.content_type,
-                "size_bytes": len(contents),
+                "filename": file.name,
+                "size_bytes": len(image_bytes),
             }
         )
 
@@ -1103,4 +1114,3 @@ async def process_schedule_images(
         "count": len(processed_files),
         "files": processed_files,
     }
-
