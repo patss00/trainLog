@@ -13,6 +13,7 @@ from fastapi import Body, Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import (
     Boolean,
     Column,
@@ -403,7 +404,13 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ============================================================
 # STATIC / JSON FILES
