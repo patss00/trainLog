@@ -8,16 +8,17 @@
     ],
     "screen": {
         "greeting": "Hi, cutie",
-        "greeting2": "estamos quase de férias <3",
+        "greeting2": "miss u <3",
         "clickme1": "click me for something cute",
         "clickme2": "or click me for a kiss",
         "clickme3": "notes",
         "clickme4": "card collection",
         "clickme5": "dá um cromo à tua namorada <3",
+        "clickme6": "calendar",
         "login": "are you cat?",
         "toDate": "2026-06-21 13:00:00.000",
         "openCard": true,
         "openCardText": "A new sticker for you here <3",
-        "updates": "Hi babes!\n\nCoisas novas/diferentes:\n- Cor do texto e botão dos updates agora é branco;\n- Loading quando se faz refresh;\n- O loading agora aparece no centro do ecrã;\n- Já temos as duas botões para abrir e dar cromos;\n- O botão para abrires um cromo está mais bonito e formatado;\n- Scroll na lista de cromos já funciona!\n\nAmo-te muito <3"
+        "updates": "Hi babes!\n\nCoisas novas/diferentes:\n- Password cada vez que instalas a app;\n- Calendário\n\nAmo-te muito <3"
     }
 }

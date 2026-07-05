@@ -3,23 +3,25 @@ import mimetypes
 import os
 import random
 from contextlib import asynccontextmanager
-from datetime import datetime
+from datetime import datetime, date, time
 from pathlib import Path
 from typing import Optional
-
+from passlib.context import CryptContext
 import requests
 from dotenv import load_dotenv
-from fastapi import Body, Depends, FastAPI, HTTPException
+from fastapi import Body, Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from sqlalchemy import (
     Boolean,
     Column,
+    Date,
     DateTime,
     ForeignKey,
     Integer,
     String,
+    Time,
     create_engine,
     text,
 )
@@ -56,6 +58,7 @@ if not SUPABASE_SERVICE_KEY:
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 
 def get_db():
@@ -308,6 +311,58 @@ def build_sticker_response(db: Session, sticker: Sticker):
         "pat_has": sticker.pat_has,
     }
 
+# ============================================================
+# APP PASSWORD FEATURE
+# ============================================================
+
+class AppPassword(Base):
+    __tablename__ = "app_password"
+
+    id = Column(Integer, primary_key=True, index=True)
+    password_hash = Column(String, nullable=False)
+
+
+class PasswordCheck(BaseModel):
+    password: str
+
+
+class PasswordSet(BaseModel):
+    password: str
+
+
+def get_app_password(db: Session):
+    return db.query(AppPassword).filter(AppPassword.id == 1).first()
+
+# ============================================================
+# EVENTS FEATURE
+# ============================================================
+
+class Event(Base):
+    __tablename__ = "events"
+
+    event_id = Column(Integer, primary_key=True, index=True)
+    date = Column(Date, nullable=False)
+    description = Column(String, nullable=False)
+    start_time = Column(Time, nullable=False)
+    end_time = Column(Time, nullable=False)
+
+
+class EventCreate(BaseModel):
+    event_id: Optional[int] = None
+    date: date
+    description: str
+    start_time: time
+    end_time: time
+
+class ProcessedScheduleFile(BaseModel):
+    filename: str
+    content_type: str
+    size_bytes: int
+
+
+class ProcessScheduleImagesResponse(BaseModel):
+    count: int
+    files: list[ProcessedScheduleFile]
 
 # ============================================================
 # CREATE TABLES
@@ -874,3 +929,178 @@ def get_sticker_image(sticker_id: int):
         raise HTTPException(status_code=404, detail="Sticker image not found")
 
     return FileResponse(str(file_path), media_type="image/jpg")
+
+# ============================================================
+# APP PASSWORD ROUTES
+# ============================================================
+
+@app.post("/password/check")
+def check_password(
+    item: PasswordCheck,
+    db: Session = Depends(get_db),
+):
+    saved_password = get_app_password(db)
+
+    if not saved_password:
+        raise HTTPException(
+            status_code=404,
+            detail="App password has not been set",
+        )
+
+    is_correct = pwd_context.verify(
+        item.password,
+        saved_password.password_hash,
+    )
+
+    return {
+        "valid": is_correct,
+    }
+
+
+@app.put("/password")
+def set_password(
+    item: PasswordSet,
+    db: Session = Depends(get_db),
+):
+    if not item.password:
+        raise HTTPException(
+            status_code=400,
+            detail="password is required",
+        )
+
+    password_hash = pwd_context.hash(item.password)
+
+    saved_password = get_app_password(db)
+
+    if not saved_password:
+        saved_password = AppPassword(
+            id=1,
+            password_hash=password_hash,
+        )
+        db.add(saved_password)
+    else:
+        saved_password.password_hash = password_hash
+
+    db.commit()
+    db.refresh(saved_password)
+
+    return {
+        "message": "Password updated",
+    }
+
+# ============================================================
+# EVENT ROUTES
+# ============================================================
+
+@app.get("/events")
+def get_events(db: Session = Depends(get_db)):
+    events = db.query(Event).order_by(Event.date.asc(), Event.start_time.asc()).all()
+
+    return [
+        {
+            "event_id": e.event_id,
+            "date": e.date.isoformat(),
+            "description": e.description,
+            "start_time": e.start_time.strftime("%H:%M"),
+            "end_time": e.end_time.strftime("%H:%M"),
+        }
+        for e in events
+    ]
+
+
+@app.put("/events")
+def put_event(item: EventCreate, db: Session = Depends(get_db)):
+    if not item.description:
+        raise HTTPException(
+            status_code=400,
+            detail="description is required",
+        )
+
+    if item.end_time <= item.start_time:
+        raise HTTPException(
+            status_code=400,
+            detail="end_time must be after start_time",
+        )
+
+    if item.event_id is not None:
+        event = db.query(Event).filter(Event.event_id == item.event_id).first()
+
+        if not event:
+            raise HTTPException(
+                status_code=404,
+                detail="Event not found",
+            )
+
+        event.date = item.date
+        event.description = item.description
+        event.start_time = item.start_time
+        event.end_time = item.end_time
+
+    else:
+        event = Event(
+            date=item.date,
+            description=item.description,
+            start_time=item.start_time,
+            end_time=item.end_time,
+        )
+
+        db.add(event)
+
+    db.commit()
+    db.refresh(event)
+
+    return {
+        "event_id": event.event_id,
+        "date": event.date.isoformat(),
+        "description": event.description,
+        "start_time": event.start_time.strftime("%H:%M"),
+        "end_time": event.end_time.strftime("%H:%M"),
+    }
+
+# ============================================================
+# SCHEDULE IMAGE ROUTES
+# ============================================================
+
+@app.post(
+    "/schedule-images/process",
+    response_model=ProcessScheduleImagesResponse,
+)
+async def process_schedule_images(
+    files: list[UploadFile] = File(...),
+):
+    if not files:
+        raise HTTPException(
+            status_code=400,
+            detail="At least one image is required",
+        )
+
+    processed_files = []
+
+    for file in files:
+        if not file.content_type or not file.content_type.startswith("image/"):
+            raise HTTPException(
+                status_code=400,
+                detail=f"{file.filename} is not an image",
+            )
+
+        contents = await file.read()
+
+        if len(contents) == 0:
+            raise HTTPException(
+                status_code=400,
+                detail=f"{file.filename} is empty",
+            )
+
+        processed_files.append(
+            {
+                "filename": file.filename,
+                "content_type": file.content_type,
+                "size_bytes": len(contents),
+            }
+        )
+
+    return {
+        "count": len(processed_files),
+        "files": processed_files,
+    }
+
