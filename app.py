@@ -14,6 +14,10 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import numpy as np
+import cv2
+import pytesseract
+from matplotlib import pyplot as plt
 from sqlalchemy import (
     Boolean,
     Column,
@@ -1088,11 +1092,14 @@ async def process_schedule_images(
 
     for file in files:
         contents = await file.read()
+        image_array = np.frombuffer(contents, np.uint8)
+        image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+        image2 = cv2.imread(image)
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        extracted_text = pytesseract.image_to_string(image_rgb)
 
         processed_files.append({
-            "filename": file.filename,
-            "content_type": file.content_type,
-            "size_bytes": len(contents),
+            "text": extracted_text,
         })
 
     return {
