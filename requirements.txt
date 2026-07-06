@@ -7,6 +7,3 @@ pydantic
 requests
 passlib
 python-multipart
-easyocr
-opencv-python-headless
-numpy
