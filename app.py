@@ -32,6 +32,16 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
+ocr_reader = None
+
+
+def get_ocr_reader():
+    global ocr_reader
+
+    if ocr_reader is None:
+        ocr_reader = easyocr.Reader(["en", "pt"], gpu=False)
+
+    return ocr_reader
 
 # ============================================================
 # CONNECTION / ENVIRONMENT
@@ -1092,16 +1102,30 @@ async def process_schedule_images(
     files: list[UploadFile] = File(...),
 ):
     processed_files = []
+    reader = get_ocr_reader()
 
     for file in files:
         contents = await file.read()
+
         image_array = np.frombuffer(contents, np.uint8)
         image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-        image2 = cv2.imread(image)
-        image_rgb = cv2.cvtColor(image2, cv2.COLOR_BGR2RGB)
-        extracted_text = pytesseract.image_to_string(image_rgb)
+
+        if image is None:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Could not read image: {file.filename}",
+            )
+
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        results = reader.readtext(image_rgb)
+
+        extracted_text = "\n".join([
+            result[1] for result in results
+        ])
 
         processed_files.append({
+            "filename": file.filename,
             "text": extracted_text,
         })
 
