@@ -359,6 +359,9 @@ class EventCreate(BaseModel):
     start_time: time
     end_time: time
 
+class EventsListCreate(BaseModel):
+    events: list[EventCreate]
+
 # ============================================================
 # SCHEDULE IMAGE FEATURE
 # ============================================================
@@ -1105,4 +1108,59 @@ async def process_schedule_images(
     return {
         "count": len(processed_files),
         "files": processed_files,
+    }
+
+@app.put("/events/list")
+def put_events_list(
+    item: EventsListCreate,
+    db: Session = Depends(get_db),
+):
+    if not item.events:
+        raise HTTPException(
+            status_code=400,
+            detail="events list is required",
+        )
+
+    created_events = []
+
+    for event_item in item.events:
+        if not event_item.description:
+            raise HTTPException(
+                status_code=400,
+                detail="description is required",
+            )
+
+        if event_item.end_time <= event_item.start_time:
+            raise HTTPException(
+                status_code=400,
+                detail="end_time must be after start_time",
+            )
+
+        event = Event(
+            date=event_item.date,
+            description=event_item.description,
+            start_time=event_item.start_time,
+            end_time=event_item.end_time,
+        )
+
+        db.add(event)
+        created_events.append(event)
+
+    db.commit()
+
+    for event in created_events:
+        db.refresh(event)
+
+    return {
+        "created": len(created_events),
+        "events": [
+            {
+                "event_id": event.event_id,
+                "date": event.date.isoformat(),
+                "description": event.description,
+                "start_time": event.start_time.strftime("%H:%M"),
+                "end_time": event.end_time.strftime("%H:%M"),
+            }
+            for event in created_events
+        ],
     }
