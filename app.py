@@ -29,16 +29,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
-ocr_reader = None
 
-
-def get_ocr_reader():
-    global ocr_reader
-
-    if ocr_reader is None:
-        ocr_reader = easyocr.Reader(["en", "pt"], gpu=False)
-
-    return ocr_reader
 
 # ============================================================
 # CONNECTION / ENVIRONMENT
@@ -52,6 +43,7 @@ load_dotenv(ENV_PATH)
 DATABASE_URL = os.getenv("DATABASE_URL")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
+OCR_SPACE_API_KEY = os.getenv("OCR_SPACE_API_KEY")
 
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL is not set in .env")
@@ -1098,15 +1090,69 @@ def put_event(item: EventCreate, db: Session = Depends(get_db)):
 async def process_schedule_images(
     files: list[UploadFile] = File(...),
 ):
+    if not OCR_SPACE_API_KEY:
+        raise HTTPException(
+            status_code=500,
+            detail="OCR_SPACE_API_KEY is not set",
+        )
+
     processed_files = []
 
     for file in files:
         contents = await file.read()
 
+        if not contents:
+            raise HTTPException(
+                status_code=400,
+                detail=f"{file.filename} is empty",
+            )
+
+        ocr_response = requests.post(
+            "https://api.ocr.space/parse/image",
+            headers={
+                "apikey": OCR_SPACE_API_KEY,
+            },
+            files={
+                "file": (
+                    file.filename or "schedule.png",
+                    contents,
+                    file.content_type or "image/png",
+                )
+            },
+            data={
+                "language": "por",
+                "isOverlayRequired": "false",
+                "detectOrientation": "true",
+                "scale": "true",
+                "OCREngine": "2",
+            },
+            timeout=90,
+        )
+
+        if ocr_response.status_code != 200:
+            raise HTTPException(
+                status_code=500,
+                detail=f"OCR request failed: {ocr_response.text}",
+            )
+
+        ocr_data = ocr_response.json()
+
+        if ocr_data.get("IsErroredOnProcessing"):
+            raise HTTPException(
+                status_code=500,
+                detail=ocr_data.get("ErrorMessage", "OCR processing failed"),
+            )
+
+        parsed_results = ocr_data.get("ParsedResults", [])
+
+        extracted_text = ""
+
+        if parsed_results:
+            extracted_text = parsed_results[0].get("ParsedText", "")
+
         processed_files.append({
             "filename": file.filename,
-            "content_type": file.content_type,
-            "size_bytes": len(contents),
+            "text": extracted_text,
         })
 
     return {
