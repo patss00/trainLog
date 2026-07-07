@@ -1151,8 +1151,8 @@ def extract_events_from_ocr_text(raw_text: str):
 
         if "Día libre" in shift_text or "Dia libre" in shift_text:
             description = "folga"
-            start_time = "00:00"
-            end_time = "23:59"
+            start_time = None
+            end_time = None
         else:
             description = "trabalho"
             start_time = shift_text[:5]
@@ -1282,6 +1282,18 @@ def put_events_list(
             status_code=400,
             detail="events list is required",
         )
+
+    # Validate duplicate dates only inside this API request
+    received_dates = set()
+
+    for event_item in item.events:
+        if event_item.date in received_dates:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Duplicate date in received events: {event_item.date.isoformat()}",
+            )
+
+        received_dates.add(event_item.date)
 
     saved_events = []
 
