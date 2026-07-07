@@ -14,6 +14,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import re
 #from matplotlib import pyplot as plt
 from sqlalchemy import (
     Boolean,
@@ -1108,6 +1109,7 @@ def extract_events_from_ocr_text(raw_text: str):
         "Upcoming months",
         "PORT CHIADO",
         "This week",
+        "Next week",
         "Info",
         "My shifts",
         "Shift Exchange",
@@ -1123,8 +1125,19 @@ def extract_events_from_ocr_text(raw_text: str):
     ]
 
     days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
-    months = ["jan", "feb", "mar", "apr", "may", "jun",
-              "jul", "aug", "sep", "oct", "nov", "dec"]
+
+    months = [
+        "jan", "feb", "mar", "apr", "may", "jun",
+        "jul", "aug", "sep", "oct", "nov", "dec"
+    ]
+
+    time_range_pattern = re.compile(
+        r"(\d{1,2}:\d{2})\s*[-–—]\s*(\d{1,2}:\d{2})"
+    )
+
+    def normalize_time(value: str):
+        hour, minute = value.split(":")
+        return f"{int(hour):02d}:{minute}"
 
     events = []
 
@@ -1132,12 +1145,14 @@ def extract_events_from_ocr_text(raw_text: str):
         if line.lower() not in days:
             continue
 
-        if index + 3 >= len(lines):
+        if index + 2 >= len(lines):
             continue
 
         day_text = lines[index + 1].strip()
         month_text = lines[index + 2].strip().lower()[:3]
-        shift_text = lines[index + 3].strip()
+
+        if not day_text.isdigit():
+            continue
 
         if month_text not in months:
             continue
@@ -1149,16 +1164,40 @@ def extract_events_from_ocr_text(raw_text: str):
 
         event_date = f"2026-{month}-{day}"
 
-        if "Día libre" in shift_text or "Dia libre" in shift_text:
-            description = "folga"
-            start_time = None
-            end_time = None
-        else:
-            description = "trabalho"
-            start_time = shift_text[:5]
-            end_time = shift_text[8:13]
+        description = None
+        start_time = None
+        end_time = None
+
+        search_index = index + 3
+
+        while search_index < len(lines):
+            candidate_line = lines[search_index].strip()
+            candidate_lower = candidate_line.lower()
+
+            if candidate_lower in days:
+                break
+
+            if "día libre" in candidate_lower or "dia libre" in candidate_lower:
+                description = "folga"
+                start_time = None
+                end_time = None
+                break
+
+            time_match = time_range_pattern.search(candidate_line)
+
+            if time_match:
+                description = "trabalho"
+                start_time = normalize_time(time_match.group(1))
+                end_time = normalize_time(time_match.group(2))
+                break
+
+            search_index += 1
+
+        if description is None:
+            continue
 
         events.append({
+            "event_id": None,
             "date": event_date,
             "description": description,
             "start_time": start_time,
