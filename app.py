@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from fastapi import Body, Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi import Response
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import re
@@ -29,7 +30,6 @@ from sqlalchemy import (
     text,
 )
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
-
 
 
 # ============================================================
@@ -418,6 +418,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/")
+def root():
+    return {"status": "ok"}
+
+
+@app.head("/")
+def root_head():
+    return Response(status_code=200)
 
 # ============================================================
 # STATIC / JSON FILES
