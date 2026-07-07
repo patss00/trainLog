@@ -347,16 +347,16 @@ class Event(Base):
     event_id = Column(Integer, primary_key=True, index=True)
     date = Column(Date, nullable=False)
     description = Column(String, nullable=False)
-    start_time = Column(Time, nullable=False)
-    end_time = Column(Time, nullable=False)
+    start_time = Column(Time, nullable=True)
+    end_time = Column(Time, nullable=True)
 
 
 class EventCreate(BaseModel):
     event_id: Optional[int] = None
     date: date
     description: str
-    start_time: time
-    end_time: time
+    start_time: Optional[time] = None
+    end_time: Optional[time] = None
 
 class EventsListCreate(BaseModel):
     events: list[EventCreate]
@@ -1019,17 +1019,20 @@ def set_password(
 
 @app.get("/events")
 def get_events(db: Session = Depends(get_db)):
-    events = db.query(Event).order_by(Event.date.asc(), Event.start_time.asc()).all()
+    events = db.query(Event).order_by(
+        Event.date.asc(),
+        Event.start_time.asc().nullsfirst(),
+    ).all()
 
     return [
         {
-            "event_id": e.event_id,
-            "date": e.date.isoformat(),
-            "description": e.description,
-            "start_time": e.start_time.strftime("%H:%M"),
-            "end_time": e.end_time.strftime("%H:%M"),
+            "event_id": event.event_id,
+            "date": event.date.isoformat(),
+            "description": event.description,
+            "start_time": format_event_time(event.start_time),
+            "end_time": format_event_time(event.end_time),
         }
-        for e in events
+        for event in events
     ]
 
 
@@ -1085,6 +1088,108 @@ def put_event(item: EventCreate, db: Session = Depends(get_db)):
 # ============================================================
 # SCHEDULE IMAGE ROUTES
 # ============================================================
+def extract_events_from_ocr_text(raw_text: str):
+    lines_raw = raw_text.splitlines()
+
+    cleaned_lines = []
+
+    for line in lines_raw:
+        clean_line = line.strip()
+
+        if clean_line:
+            cleaned_lines.append(clean_line)
+
+    ignored_lines = [
+        "Schedule",
+        "Planned shifts",
+        "Worked shifts",
+        "Upcoming",
+        "Pay Period",
+        "Upcoming months",
+        "PORT CHIADO",
+        "This week",
+        "Info",
+        "My shifts",
+        "Shift Exchange",
+        "My Absence",
+        "Menu",
+        "|||",
+    ]
+
+    lines = [
+        line
+        for line in cleaned_lines
+        if line not in ignored_lines and "Select" not in line
+    ]
+
+    days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+    months = ["jan", "feb", "mar", "apr", "may", "jun",
+              "jul", "aug", "sep", "oct", "nov", "dec"]
+
+    events = []
+
+    for index, line in enumerate(lines):
+        if line.lower() not in days:
+            continue
+
+        if index + 3 >= len(lines):
+            continue
+
+        day_text = lines[index + 1].strip()
+        month_text = lines[index + 2].strip().lower()[:3]
+        shift_text = lines[index + 3].strip()
+
+        if month_text not in months:
+            continue
+
+        month_int = months.index(month_text) + 1
+
+        month = str(month_int).zfill(2)
+        day = day_text.zfill(2)
+
+        event_date = f"2026-{month}-{day}"
+
+        if "Día libre" in shift_text or "Dia libre" in shift_text:
+            description = "folga"
+            start_time = "00:00"
+            end_time = "23:59"
+        else:
+            description = "trabalho"
+            start_time = shift_text[:5]
+            end_time = shift_text[8:13]
+
+        events.append({
+            "date": event_date,
+            "description": description,
+            "start_time": start_time,
+            "end_time": end_time,
+        })
+
+    return events
+
+def is_all_day_event(start_time, end_time):
+    if start_time is None and end_time is None:
+        return True
+
+    if start_time == end_time:
+        return True
+
+    if (
+        start_time is not None
+        and end_time is not None
+        and start_time.strftime("%H:%M") == "00:00"
+        and end_time.strftime("%H:%M") == "23:59"
+    ):
+        return True
+
+    return False
+
+
+def format_event_time(value):
+    if value is None:
+        return None
+
+    return value.strftime("%H:%M")
 
 @app.post("/schedule-images/process")
 async def process_schedule_images(
@@ -1097,6 +1202,7 @@ async def process_schedule_images(
         )
 
     processed_files = []
+    all_events = []
 
     for file in files:
         contents = await file.read()
@@ -1120,7 +1226,7 @@ async def process_schedule_images(
                 )
             },
             data={
-                "language": "por",
+                "language": "eng",
                 "isOverlayRequired": "false",
                 "detectOrientation": "true",
                 "scale": "true",
@@ -1150,14 +1256,20 @@ async def process_schedule_images(
         if parsed_results:
             extracted_text = parsed_results[0].get("ParsedText", "")
 
+        events = extract_events_from_ocr_text(extracted_text)
+
         processed_files.append({
             "filename": file.filename,
             "text": extracted_text,
+            "events": events,
         })
+
+        all_events.extend(events)
 
     return {
         "count": len(processed_files),
         "files": processed_files,
+        "events": all_events,
     }
 
 @app.put("/events/list")
@@ -1171,7 +1283,7 @@ def put_events_list(
             detail="events list is required",
         )
 
-    created_events = []
+    saved_events = []
 
     for event_item in item.events:
         if not event_item.description:
@@ -1180,37 +1292,68 @@ def put_events_list(
                 detail="description is required",
             )
 
-        if event_item.end_time <= event_item.start_time:
-            raise HTTPException(
-                status_code=400,
-                detail="end_time must be after start_time",
+        start_time = event_item.start_time
+        end_time = event_item.end_time
+
+        if is_all_day_event(start_time, end_time):
+            start_time = None
+            end_time = None
+        else:
+            if start_time is None or end_time is None:
+                raise HTTPException(
+                    status_code=400,
+                    detail="start_time and end_time are both required for non-all-day events",
+                )
+
+            if end_time <= start_time:
+                raise HTTPException(
+                    status_code=400,
+                    detail="end_time must be after start_time",
+                )
+
+        if event_item.event_id is None:
+            event = Event(
+                date=event_item.date,
+                description=event_item.description,
+                start_time=start_time,
+                end_time=end_time,
             )
 
-        event = Event(
-            date=event_item.date,
-            description=event_item.description,
-            start_time=event_item.start_time,
-            end_time=event_item.end_time,
-        )
+            db.add(event)
 
-        db.add(event)
-        created_events.append(event)
+        else:
+            event = db.query(Event).filter(
+                Event.event_id == event_item.event_id
+            ).first()
+
+            if not event:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"Event {event_item.event_id} not found",
+                )
+
+            event.date = event_item.date
+            event.description = event_item.description
+            event.start_time = start_time
+            event.end_time = end_time
+
+        saved_events.append(event)
 
     db.commit()
 
-    for event in created_events:
+    for event in saved_events:
         db.refresh(event)
 
     return {
-        "created": len(created_events),
+        "saved": len(saved_events),
         "events": [
             {
                 "event_id": event.event_id,
                 "date": event.date.isoformat(),
                 "description": event.description,
-                "start_time": event.start_time.strftime("%H:%M"),
-                "end_time": event.end_time.strftime("%H:%M"),
+                "start_time": format_event_time(event.start_time),
+                "end_time": format_event_time(event.end_time),
             }
-            for event in created_events
+            for event in saved_events
         ],
     }
