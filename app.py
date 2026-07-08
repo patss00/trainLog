@@ -17,18 +17,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import re
 #from matplotlib import pyplot as plt
-from sqlalchemy import (
-    Boolean,
-    Column,
-    Date,
-    DateTime,
-    ForeignKey,
-    Integer,
-    String,
-    Time,
-    create_engine,
-    text,
-)
+from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKey, Integer, String, Time, create_engine, text, func
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 
