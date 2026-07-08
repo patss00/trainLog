@@ -385,6 +385,19 @@ class ProcessScheduleImagesResponse(BaseModel):
     files: list[ProcessedScheduleFile]
 
 # ============================================================
+# Others
+# ============================================================
+
+class ValidUrl(Base):
+    __tablename__ = "urls"
+
+    valid = Column(String, primary_key=True, index=True)
+
+
+class UrlCheck(BaseModel):
+    url: str
+
+# ============================================================
 # CREATE TABLES
 # ============================================================
 
@@ -1418,3 +1431,56 @@ def put_events_list(
             for event in saved_events
         ],
     }
+
+
+# ============================================================
+# Others
+# ============================================================
+
+@app.post("/urls/check")
+def check_url(
+    item: UrlCheck,
+    db: Session = Depends(get_db),
+):
+    try:
+        if not item.url:
+            return {
+                "valid": False,
+                "error": "URL is required",
+            }
+
+        received_url = item.url.strip()
+
+        if not received_url:
+            return {
+                "valid": False,
+                "error": "URL is required",
+            }
+
+        # Optional: allow match with or without final slash
+        possible_urls = {
+            received_url,
+            received_url.rstrip("/"),
+            received_url.rstrip("/") + "/",
+        }
+
+        match = db.query(ValidUrl).filter(
+            ValidUrl.valid.in_(possible_urls)
+        ).first()
+
+        if match:
+            return {
+                "valid": True,
+                "error": None,
+            }
+
+        return {
+            "valid": False,
+            "error": "URL is not valid",
+        }
+
+    except Exception as e:
+        return {
+            "valid": False,
+            "error": str(e),
+        }
