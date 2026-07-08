@@ -393,9 +393,14 @@ class ValidUrl(Base):
 
     valid = Column(String, primary_key=True, index=True)
 
-
 class UrlCheck(BaseModel):
     url: str
+
+class Word(Base):
+    __tablename__ = "words"
+
+    ws = Column(String, primary_key=True, index=True)
+    lang_code = Column("langCode", String, primary_key=True, index=True)
 
 # ============================================================
 # CREATE TABLES
@@ -1482,5 +1487,46 @@ def check_url(
     except Exception as e:
         return {
             "valid": False,
+            "error": str(e),
+        }
+    
+@app.get("/words/random")
+def get_random_word(
+    langCode: str = "en",
+    db: Session = Depends(get_db),
+):
+    try:
+        clean_lang_code = langCode.strip().lower()
+
+        if clean_lang_code not in ["en", "pt"]:
+            return {
+                "word": None,
+                "langCode": clean_lang_code,
+                "error": "Invalid language. Use en or pt.",
+            }
+
+        word = db.query(Word).filter(
+            Word.lang_code == clean_lang_code
+        ).order_by(
+            func.random()
+        ).first()
+
+        if not word:
+            return {
+                "word": None,
+                "langCode": clean_lang_code,
+                "error": "No words found for this language.",
+            }
+
+        return {
+            "word": word.ws,
+            "langCode": word.lang_code,
+            "error": None,
+        }
+
+    except Exception as e:
+        return {
+            "word": None,
+            "langCode": langCode,
             "error": str(e),
         }
