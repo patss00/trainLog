@@ -7,3 +7,4 @@ pydantic
 requests
 passlib
 python-multipart
+wordfreq

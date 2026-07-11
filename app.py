@@ -19,6 +19,7 @@ import re
 #from matplotlib import pyplot as plt
 from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKey, Integer, String, Time, create_engine, text, func
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
+from wordfreq import zipf_frequency
 
 
 # ============================================================
@@ -390,6 +391,10 @@ class Word(Base):
 
     ws = Column(String, primary_key=True, index=True)
     lang_code = Column("langCode", String, primary_key=True, index=True)
+
+class RealWordCheck(BaseModel):
+    word: str
+    langCode: str = "en"
 
 # ============================================================
 # CREATE TABLES
@@ -1517,5 +1522,66 @@ def get_random_word(
         return {
             "word": None,
             "langCode": langCode,
+            "error": str(e),
+        }
+    
+@app.post("/words/check-real")
+def check_real_word(item: RealWordCheck):
+    try:
+        clean_word = item.word.strip().lower()
+        clean_lang_code = item.langCode.strip().lower()
+
+        if not clean_word:
+            return {
+                "valid": False,
+                "word": clean_word,
+                "langCode": clean_lang_code,
+                "score": 0,
+                "error": "Word is required",
+            }
+
+        if len(clean_word) != 5:
+            return {
+                "valid": False,
+                "word": clean_word,
+                "langCode": clean_lang_code,
+                "score": 0,
+                "error": "Word must have 5 letters",
+            }
+
+        if clean_lang_code not in ["en", "pt"]:
+            return {
+                "valid": False,
+                "word": clean_word,
+                "langCode": clean_lang_code,
+                "score": 0,
+                "error": "Invalid language. Use en or pt.",
+            }
+
+        score = zipf_frequency(clean_word, clean_lang_code)
+
+        if score > 0:
+            return {
+                "valid": True,
+                "word": clean_word,
+                "langCode": clean_lang_code,
+                "score": score,
+                "error": None,
+            }
+
+        return {
+            "valid": False,
+            "word": clean_word,
+            "langCode": clean_lang_code,
+            "score": score,
+            "error": "Word not found",
+        }
+
+    except Exception as e:
+        return {
+            "valid": False,
+            "word": item.word,
+            "langCode": item.langCode,
+            "score": 0,
             "error": str(e),
         }
