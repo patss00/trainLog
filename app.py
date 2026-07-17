@@ -17,7 +17,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import re
 #from matplotlib import pyplot as plt
-from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKey, Integer, String, Time, create_engine, text, func
+from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKey, Integer, String, Time, create_engine, text, func, Float
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 from wordfreq import zipf_frequency
 
@@ -396,6 +396,27 @@ class RealWordCheck(BaseModel):
     word: str
     langCode: str = "en"
 
+class Person(Base):
+    __tablename__ = "people"
+
+    id = Column(Integer, primary_key=True, index=True)
+    person = Column(String, nullable=False)
+
+
+class Transaction(Base):
+    __tablename__ = "transactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    description = Column(String, nullable=False)
+    amount = Column(Float, nullable=False)
+    person = Column(Integer, ForeignKey("people.id"), nullable=False)
+    transaction_type = Column("type", String, nullable=False)
+
+class TransactionCreate(BaseModel):
+    description: str
+    amount: float
+    person: int
+    type: str
 # ============================================================
 # CREATE TABLES
 # ============================================================
@@ -1583,5 +1604,74 @@ def check_real_word(item: RealWordCheck):
             "word": item.word,
             "langCode": item.langCode,
             "score": 0,
+            "error": str(e),
+        }
+    
+@app.post("/transactions")
+def create_transaction(
+    item: TransactionCreate,
+    db: Session = Depends(get_db),
+):
+    try:
+        if not item.description.strip():
+            return {
+                "success": False,
+                "transaction": None,
+                "error": "Description is required",
+            }
+
+        if item.amount <= 0:
+            return {
+                "success": False,
+                "transaction": None,
+                "error": "Amount must be greater than 0",
+            }
+
+        if not item.type.strip():
+            return {
+                "success": False,
+                "transaction": None,
+                "error": "Type is required",
+            }
+
+        person = db.query(Person).filter(
+            Person.id == item.person
+        ).first()
+
+        if not person:
+            return {
+                "success": False,
+                "transaction": None,
+                "error": "Person not found",
+            }
+
+        transaction = Transaction(
+            description=item.description.strip(),
+            amount=item.amount,
+            person=item.person,
+            transaction_type=item.type.strip(),
+        )
+
+        db.add(transaction)
+        db.commit()
+        db.refresh(transaction)
+
+        return {
+            "success": True,
+            "transaction": {
+                "id": transaction.id,
+                "description": transaction.description,
+                "amount": transaction.amount,
+                "person": transaction.person,
+                "personName": person.person,
+                "type": transaction.transaction_type,
+            },
+            "error": None,
+        }
+
+    except Exception as e:
+        return {
+            "success": False,
+            "transaction": None,
             "error": str(e),
         }
