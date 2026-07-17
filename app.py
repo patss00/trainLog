@@ -417,6 +417,19 @@ class TransactionCreate(BaseModel):
     amount: float
     person: int
     type: str
+
+
+class TransactionType(Base):
+    __tablename__ = "transactionTypes"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    description = Column(String, nullable=False)
+    active = Column(Boolean, nullable=False, default=True)
+
+
+class TransactionTypeCreate(BaseModel):
+    description: str
+    active: Optional[bool] = True
 # ============================================================
 # CREATE TABLES
 # ============================================================
@@ -1616,21 +1629,18 @@ def create_transaction(
         if not item.description.strip():
             return {
                 "success": False,
-                "transaction": None,
                 "error": "Description is required",
             }
 
         if item.amount <= 0:
             return {
                 "success": False,
-                "transaction": None,
                 "error": "Amount must be greater than 0",
             }
 
         if not item.type.strip():
             return {
                 "success": False,
-                "transaction": None,
                 "error": "Type is required",
             }
 
@@ -1641,7 +1651,6 @@ def create_transaction(
         if not person:
             return {
                 "success": False,
-                "transaction": None,
                 "error": "Person not found",
             }
 
@@ -1658,21 +1667,12 @@ def create_transaction(
 
         return {
             "success": True,
-            "transaction": {
-                "id": transaction.id,
-                "description": transaction.description,
-                "amount": transaction.amount,
-                "person": transaction.person,
-                "personName": person.person,
-                "type": transaction.transaction_type,
-            },
             "error": None,
         }
 
     except Exception as e:
         return {
             "success": False,
-            "transaction": None,
             "error": str(e),
         }
 
@@ -1691,28 +1691,24 @@ def update_transaction(
         if not transaction:
             return {
                 "success": False,
-                "transaction": None,
                 "error": "Transaction not found",
             }
 
         if not item.description.strip():
             return {
                 "success": False,
-                "transaction": None,
                 "error": "Description is required",
             }
 
         if item.amount <= 0:
             return {
                 "success": False,
-                "transaction": None,
                 "error": "Amount must be greater than 0",
             }
 
         if not item.type.strip():
             return {
                 "success": False,
-                "transaction": None,
                 "error": "Type is required",
             }
 
@@ -1723,7 +1719,6 @@ def update_transaction(
         if not person:
             return {
                 "success": False,
-                "transaction": None,
                 "error": "Person not found",
             }
 
@@ -1737,23 +1732,63 @@ def update_transaction(
 
         return {
             "success": True,
-            "transaction": {
-                "id": transaction.id,
-                "description": transaction.description,
-                "amount": transaction.amount,
-                "person": transaction.person,
-                "personName": person.person,
-                "type": transaction.transaction_type,
-            },
             "error": None,
         }
 
     except Exception as e:
         return {
             "success": False,
-            "transaction": None,
             "error": str(e),
         }
+
+# ============================================================
+# TRANSACTION TYPE ROUTES
+# ============================================================
+
+@app.get("/transaction-types")
+def get_transaction_types(db: Session = Depends(get_db)):
+    types = db.query(TransactionType).order_by(TransactionType.id.asc()).all()
+
+    return [
+        {
+            "id": t.id,
+            "description": t.description,
+            "active": t.active,
+        }
+        for t in types
+    ]
+
+
+@app.post("/transaction-types")
+def create_transaction_type(
+    item: TransactionTypeCreate,
+    db: Session = Depends(get_db),
+):
+    if not item.description.strip():
+        return {
+            "success": False,
+            "error": "Description is required",
+        }
+
+    transaction_type = TransactionType(
+        description=item.description.strip(),
+        active=item.active if item.active is not None else True,
+    )
+
+    db.add(transaction_type)
+    db.commit()
+    db.refresh(transaction_type)
+
+    return {
+        "success": True,
+        "transaction_type": {
+            "id": transaction_type.id,
+            "description": transaction_type.description,
+            "active": transaction_type.active,
+        },
+        "error": None,
+    }
+
 
 # ============================================================
 # PEOPLE ROUTES
@@ -1770,3 +1805,4 @@ def get_people(db: Session = Depends(get_db)):
         }
         for p in people
     ]
+
