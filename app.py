@@ -1675,3 +1675,98 @@ def create_transaction(
             "transaction": None,
             "error": str(e),
         }
+
+
+@app.put("/transactions/{transaction_id}")
+def update_transaction(
+    transaction_id: int,
+    item: TransactionCreate,
+    db: Session = Depends(get_db),
+):
+    try:
+        transaction = db.query(Transaction).filter(
+            Transaction.id == transaction_id
+        ).first()
+
+        if not transaction:
+            return {
+                "success": False,
+                "transaction": None,
+                "error": "Transaction not found",
+            }
+
+        if not item.description.strip():
+            return {
+                "success": False,
+                "transaction": None,
+                "error": "Description is required",
+            }
+
+        if item.amount <= 0:
+            return {
+                "success": False,
+                "transaction": None,
+                "error": "Amount must be greater than 0",
+            }
+
+        if not item.type.strip():
+            return {
+                "success": False,
+                "transaction": None,
+                "error": "Type is required",
+            }
+
+        person = db.query(Person).filter(
+            Person.id == item.person
+        ).first()
+
+        if not person:
+            return {
+                "success": False,
+                "transaction": None,
+                "error": "Person not found",
+            }
+
+        transaction.description = item.description.strip()
+        transaction.amount = item.amount
+        transaction.person = item.person
+        transaction.transaction_type = item.type.strip()
+
+        db.commit()
+        db.refresh(transaction)
+
+        return {
+            "success": True,
+            "transaction": {
+                "id": transaction.id,
+                "description": transaction.description,
+                "amount": transaction.amount,
+                "person": transaction.person,
+                "personName": person.person,
+                "type": transaction.transaction_type,
+            },
+            "error": None,
+        }
+
+    except Exception as e:
+        return {
+            "success": False,
+            "transaction": None,
+            "error": str(e),
+        }
+
+# ============================================================
+# PEOPLE ROUTES
+# ============================================================
+
+@app.get("/people")
+def get_people(db: Session = Depends(get_db)):
+    people = db.query(Person).order_by(Person.id.asc()).all()
+
+    return [
+        {
+            "id": p.id,
+            "person": p.person,
+        }
+        for p in people
+    ]
