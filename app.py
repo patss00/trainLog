@@ -411,12 +411,14 @@ class Transaction(Base):
     amount = Column(Float, nullable=False)
     person = Column(Integer, ForeignKey("people.id"), nullable=False)
     transaction_type = Column("type", Integer, ForeignKey("transactionTypes.id"), nullable=False)
+    date = Column(DateTime, nullable=False)
 
 class TransactionCreate(BaseModel):
     description: str
     amount: float
     person: int
     type: int
+    date: datetime
 
 
 class TransactionCreateRequest(BaseModel):
@@ -424,6 +426,7 @@ class TransactionCreateRequest(BaseModel):
     amount: str
     person: int
     type: int
+    date: str
 
 
 def parse_amount(raw: str) -> float:
@@ -440,6 +443,10 @@ def parse_amount(raw: str) -> float:
     # only commas (ambiguous) or neither: leave as-is
 
     return float(s)
+
+
+def parse_date(raw: str) -> datetime:
+    return datetime.fromisoformat(raw.strip())
 
 
 class TransactionType(Base):
@@ -1669,6 +1676,14 @@ def create_transaction(
                 "error": "Amount must be greater than 0",
             }
 
+        try:
+            transaction_date = parse_date(item.date)
+        except (ValueError, AttributeError):
+            return {
+                "success": False,
+                "error": f"Invalid date: '{item.date}' could not be converted to a datetime",
+            }
+
         person = db.query(Person).filter(
             Person.id == item.person
         ).first()
@@ -1694,6 +1709,7 @@ def create_transaction(
             amount=amount,
             person=item.person,
             transaction_type=item.type,
+            date=transaction_date,
         )
 
         db.add(transaction)
@@ -1765,6 +1781,7 @@ def update_transaction(
         transaction.amount = item.amount
         transaction.person = item.person
         transaction.transaction_type = item.type
+        transaction.date = item.date
 
         db.commit()
         db.refresh(transaction)
