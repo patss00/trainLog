@@ -410,13 +410,36 @@ class Transaction(Base):
     description = Column(String, nullable=False)
     amount = Column(Float, nullable=False)
     person = Column(Integer, ForeignKey("people.id"), nullable=False)
-    transaction_type = Column("type", String, nullable=False)
+    transaction_type = Column("type", Integer, ForeignKey("transactionTypes.id"), nullable=False)
 
 class TransactionCreate(BaseModel):
     description: str
     amount: float
     person: int
-    type: str
+    type: int
+
+
+class TransactionCreateRequest(BaseModel):
+    description: str
+    amount: str
+    person: int
+    type: int
+
+
+def parse_amount(raw: str) -> float:
+    s = raw.strip()
+    has_comma = "," in s
+    has_period = "." in s
+
+    if has_comma and has_period:
+        # e.g. "1,234.56" — commas are thousands separators, period is decimal
+        s = s.replace(",", "")
+    elif has_period and not has_comma:
+        # single period — treat as decimal separator, keep as-is for float()
+        pass
+    # only commas (ambiguous) or neither: leave as-is
+
+    return float(s)
 
 
 class TransactionType(Base):
@@ -1622,7 +1645,7 @@ def check_real_word(item: RealWordCheck):
     
 @app.post("/transactions")
 def create_transaction(
-    item: TransactionCreate,
+    item: TransactionCreateRequest,
     db: Session = Depends(get_db),
 ):
     try:
@@ -1632,16 +1655,18 @@ def create_transaction(
                 "error": "Description is required",
             }
 
-        if item.amount <= 0:
+        try:
+            amount = parse_amount(item.amount)
+        except (ValueError, AttributeError):
+            return {
+                "success": False,
+                "error": f"Invalid amount: '{item.amount}' could not be converted to a number",
+            }
+
+        if amount <= 0:
             return {
                 "success": False,
                 "error": "Amount must be greater than 0",
-            }
-
-        if not item.type.strip():
-            return {
-                "success": False,
-                "error": "Type is required",
             }
 
         person = db.query(Person).filter(
@@ -1654,11 +1679,21 @@ def create_transaction(
                 "error": "Person not found",
             }
 
+        transaction_type = db.query(TransactionType).filter(
+            TransactionType.id == item.type
+        ).first()
+
+        if not transaction_type:
+            return {
+                "success": False,
+                "error": "Transaction type not found",
+            }
+
         transaction = Transaction(
             description=item.description.strip(),
-            amount=item.amount,
+            amount=amount,
             person=item.person,
-            transaction_type=item.type.strip(),
+            transaction_type=item.type,
         )
 
         db.add(transaction)
@@ -1706,12 +1741,6 @@ def update_transaction(
                 "error": "Amount must be greater than 0",
             }
 
-        if not item.type.strip():
-            return {
-                "success": False,
-                "error": "Type is required",
-            }
-
         person = db.query(Person).filter(
             Person.id == item.person
         ).first()
@@ -1722,10 +1751,20 @@ def update_transaction(
                 "error": "Person not found",
             }
 
+        transaction_type = db.query(TransactionType).filter(
+            TransactionType.id == item.type
+        ).first()
+
+        if not transaction_type:
+            return {
+                "success": False,
+                "error": "Transaction type not found",
+            }
+
         transaction.description = item.description.strip()
         transaction.amount = item.amount
         transaction.person = item.person
-        transaction.transaction_type = item.type.strip()
+        transaction.transaction_type = item.type
 
         db.commit()
         db.refresh(transaction)
