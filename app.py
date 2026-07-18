@@ -400,7 +400,7 @@ class Person(Base):
     __tablename__ = "people"
 
     id = Column(Integer, primary_key=True, index=True)
-    person = Column(String, nullable=False)
+    name = Column(String, nullable=False)
 
 
 class Transaction(Base):
@@ -1857,7 +1857,7 @@ def get_people(db: Session = Depends(get_db)):
     return [
         {
             "id": p.id,
-            "person": p.person,
+            "name": p.name,
         }
         for p in people
     ]
