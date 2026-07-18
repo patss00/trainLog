@@ -1727,11 +1727,10 @@ def create_transaction(
             "error": str(e),
         }
 
-
 @app.put("/transactions/{transaction_id}")
 def update_transaction(
     transaction_id: int,
-    item: TransactionCreate,
+    item: TransactionCreateRequest,
     db: Session = Depends(get_db),
 ):
     try:
@@ -1751,10 +1750,26 @@ def update_transaction(
                 "error": "Description is required",
             }
 
-        if item.amount <= 0:
+        try:
+            amount = parse_amount(item.amount)
+        except (ValueError, AttributeError):
+            return {
+                "success": False,
+                "error": f"Invalid amount: '{item.amount}' could not be converted to a number",
+            }
+
+        if amount <= 0:
             return {
                 "success": False,
                 "error": "Amount must be greater than 0",
+            }
+
+        try:
+            transaction_date = parse_date(item.date)
+        except (ValueError, AttributeError):
+            return {
+                "success": False,
+                "error": f"Invalid date: '{item.date}' could not be converted to a datetime",
             }
 
         person = db.query(Person).filter(
@@ -1778,10 +1793,10 @@ def update_transaction(
             }
 
         transaction.description = item.description.strip()
-        transaction.amount = item.amount
+        transaction.amount = amount
         transaction.person = item.person
         transaction.transaction_type = item.type
-        transaction.date = item.date
+        transaction.date = transaction_date
 
         db.commit()
         db.refresh(transaction)
@@ -1873,8 +1888,8 @@ def get_transactions(db: Session = Depends(get_db)):
         result = []
 
         for transaction in transactions:
-            person = db.query(People).filter(
-                People.id == transaction.person
+            person = db.query(Person).filter(
+                Person.id == transaction.person
             ).first()
 
             result.append({
