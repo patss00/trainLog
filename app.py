@@ -1862,3 +1862,40 @@ def get_people(db: Session = Depends(get_db)):
         for p in people
     ]
 
+@app.get("/transactions")
+def get_transactions(db: Session = Depends(get_db)):
+    try:
+        transactions = db.query(Transaction).order_by(
+            Transaction.date.desc().nullslast(),
+            Transaction.id.desc(),
+        ).all()
+
+        result = []
+
+        for transaction in transactions:
+            person = db.query(People).filter(
+                People.id == transaction.person
+            ).first()
+
+            result.append({
+                "id": transaction.id,
+                "description": transaction.description,
+                "amount": transaction.amount,
+                "person": transaction.person,
+                "personName": person.name if person else None,
+                "type": transaction.transaction_type,
+                "date": transaction.date.isoformat() if transaction.date else None,
+            })
+
+        return {
+            "success": True,
+            "transactions": result,
+            "error": None,
+        }
+
+    except Exception as e:
+        return {
+            "success": False,
+            "transactions": [],
+            "error": str(e),
+        }
